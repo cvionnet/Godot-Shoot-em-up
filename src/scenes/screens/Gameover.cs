@@ -33,7 +33,7 @@ public partial class Gameover : Node
     /// </summary>
     private void _onButtonStart_Pressed()
     {
-        Nucleus_Utils.State_Manager.EmitSignal("Generic_TransitionScene_EventHandler", "screens/Menu");    // (to SceneManager) Restart a new game
+        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.Generic_TransitionScene, "screens/Menu");    // (to SceneManager) Restart a new game
     }
 
 #endregion

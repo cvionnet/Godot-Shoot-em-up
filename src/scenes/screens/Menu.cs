@@ -38,7 +38,7 @@ public partial class Menu : Node
     {
         // Go to 1st level
         Nucleus_Utils.State_Manager.LevelActive = Nucleus_Utils.State_Manager.LevelList[0];
-        Nucleus_Utils.State_Manager.EmitSignal("Generic_TransitionScene_EventHandler", $"levels/Level{Nucleus_Utils.State_Manager.LevelActive.LevelId}");    // (to SceneManager)
+        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.Generic_TransitionScene, $"levels/Level{Nucleus_Utils.State_Manager.LevelActive.LevelId}");    // (to SceneManager)
     }
 
 #endregion

@@ -123,7 +123,7 @@ public partial class ItemGeneric : Area2D
     /// </summary>
     private void Destroy_Item()
     {
-        Nucleus_Utils.State_Manager.EmitSignal("ItemGeneric_ItemBrain_Touched_EventHandler", Name);    // to delete the item from the main list
+        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.ItemGeneric_ItemBrain_Touched, Name);    // to delete the item from the main list
         CallDeferred("queue_free");
     }
 
