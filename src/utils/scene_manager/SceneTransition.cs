@@ -34,7 +34,7 @@ public partial class SceneTransition : Node
         if (anim_name == "fadeToBlack")
         {
             // (send to SceneManager)
-            Nucleus_Utils.State_Manager.EmitSignal("SceneTransition_AnimationFinished_EventHandler");
+            Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.SceneTransition_AnimationFinished);
             _animation.Play("fadeToNormal");
         }
     }

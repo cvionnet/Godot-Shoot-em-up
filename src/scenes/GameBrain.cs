@@ -53,7 +53,7 @@ public partial class GameBrain : Node
 
         // Connect SceneManager after Nucleus_Utils.State_Manager initialization
         GetParent().GetNode<SceneManager>("SceneManager").Initialize_SceneManager();
-        Nucleus_Utils.State_Manager.Connect("UIPlayer_GameBrain_LevelTimeout_EventHandler", new Callable(this, nameof(onLevel_Timeout)));   // emited from Player
+        Nucleus_Utils.State_Manager.Connect(StateManager.SignalName.UiPlayer_GameBrain_LevelTimeout, new Callable(this, nameof(onLevel_Timeout)));   // emited from Player
 
         Initialize_LevelsList();
     }
@@ -75,7 +75,7 @@ public partial class GameBrain : Node
 	/// </summary>
 	private void Display_EndGame()
 	{
-        Nucleus_Utils.State_Manager.EmitSignal("Generic_TransitionScene_EventHandler", "screens/Gameover");    // (to SceneManager)
+        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.Generic_TransitionScene, "screens/Gameover");    // (to SceneManager)
 	}
 
 #endregion

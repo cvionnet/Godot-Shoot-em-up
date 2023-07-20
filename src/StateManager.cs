@@ -27,13 +27,13 @@ public partial class StateManager : Node
 
 #region SIGNALS DECLARATION
 
-    [Signal] public delegate void Generic_TransitionScene_EventHandler(string nextScene);
-    [Signal] public delegate void SceneTransition_AnimationFinished_EventHandler();
-    [Signal] public delegate void UIPlayer_GameBrain_LevelTimeout_EventHandler();
+    [Signal] public delegate void Generic_TransitionSceneEventHandler(string nextScene);
+    [Signal] public delegate void SceneTransition_AnimationFinishedEventHandler();
+    [Signal] public delegate void UiPlayer_GameBrain_LevelTimeoutEventHandler();
 
-    [Signal] public delegate void Player_UIPlayer_UpdateScore_EventHandler(int score);
+    [Signal] public delegate void Player_UiPlayer_UpdatedScoreEventHandler(int score);
 
-    [Signal] public delegate void ItemGeneric_ItemBrain_Touched_EventHandler(string ItemName);
+    [Signal] public delegate void ItemGeneric_ItemBrain_TouchedEventHandler(string ItemName);
 
 #endregion
 

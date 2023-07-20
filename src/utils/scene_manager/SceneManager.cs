@@ -90,8 +90,8 @@ public partial class SceneManager : Node
     /// </summary>
     public void Initialize_SceneManager()
     {
-        Nucleus_Utils.State_Manager.Connect("Generic_TransitionScene_EventHandler", new Callable(this, nameof(_onCall_TransitionScene)));
-		Nucleus_Utils.State_Manager.Connect("SceneTransition_AnimationFinished_EventHandler", new Callable(this, nameof(_onSceneTransition_Finished)));
+        Nucleus_Utils.State_Manager.Connect(StateManager.SignalName.Generic_TransitionScene, new Callable(this, nameof(_onCall_TransitionScene)));
+		Nucleus_Utils.State_Manager.Connect(StateManager.SignalName.SceneTransition_AnimationFinished, new Callable(this, nameof(_onSceneTransition_Finished)));
     }
 
 #endregion

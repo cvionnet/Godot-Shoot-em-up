@@ -56,7 +56,7 @@ public partial class UI_Player : CanvasLayer
         else
         {
             _timerTime.Stop();
-            Nucleus_Utils.State_Manager.EmitSignal("UIPlayer_GameBrain_LevelTimeout_EventHandler");
+            Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.UiPlayer_GameBrain_LevelTimeout);
         }
     }
 

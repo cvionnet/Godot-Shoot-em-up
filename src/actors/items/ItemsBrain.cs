@@ -41,7 +41,7 @@ public partial class ItemsBrain : Node2D
 
         _timerNewItem.Connect("timeout", new Callable(this, nameof(onNewItemTimer_Timeout)));
 
-        Nucleus_Utils.State_Manager.Connect("ItemGeneric_ItemBrain_Touched_EventHandler", new Callable(this, nameof(onItem_Touched)));
+        Nucleus_Utils.State_Manager.Connect(StateManager.SignalName.ItemGeneric_ItemBrain_Touched, new Callable(this, nameof(onItem_Touched)));
 
         Initialize_ItemsBrain();
     }

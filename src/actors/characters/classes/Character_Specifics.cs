@@ -22,7 +22,7 @@ public partial class Character
         }
 
         Score += point;
-        Nucleus_Utils.State_Manager.EmitSignal("Player_UIPlayer_UpdateScore_EventHandler", Score);
+        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.Player_UiPlayer_UpdatedScore, Score);
     }
 
 #endregion
