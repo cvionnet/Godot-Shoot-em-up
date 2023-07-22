@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://w47ybjo2wkng"]
 
-[ext_resource type="PackedScene" path="res://src/utils/scene_manager/SceneManager.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://br8di38mkntnp" path="res://src/utils/Nucleus/SceneManager/SceneManager.tscn" id="1"]
 [ext_resource type="Script" path="res://src/Main.cs" id="2"]
-[ext_resource type="PackedScene" path="res://src/scenes/GameBrain.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://b4cijw0uvxx0n" path="res://src/scenes/GameBrain.tscn" id="3"]
 
 [node name="Main" type="Node"]
 script = ExtResource("2")

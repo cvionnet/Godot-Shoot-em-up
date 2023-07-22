@@ -1,8 +1,9 @@
-using Godot;
-using Godot.Collections;
-using Nucleus;
 using System;
 using System.Reflection;
+using BulletBallet.utils.NucleusFW.StateMachine;
+using Godot.Collections;
+
+namespace BulletBallet.actors.characters.player.states;
 
 /// <summary>
 /// Responsible for :
@@ -10,16 +11,12 @@ using System.Reflection;
 /// </summary>
 public partial class Idle_Player : Node, IState
 {
-#region HEADER
-
     private Player _rootNode;
     private Move_Player _moveNode;
 
-#endregion
-
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -28,24 +25,24 @@ public partial class Idle_Player : Node, IState
         Initialize_Idle();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region INTERFACE IMPLEMENTATION
+    #region INTERFACE IMPLEMENTATION
 
-    public void Enter_State<T>(T pRootNode, Dictionary<string, GodotObject> pParam = null)
+    public void Enter_State<T>(T rootNode, Dictionary<string, GodotObject> param = null)
     {
-        if (pRootNode == null || pRootNode.GetType() != typeof(Player))
+        if (rootNode == null || rootNode.GetType() != typeof(Player))
         {
-            Nucleus_Utils.Error($"State Machine root node is null or type not expected ({pRootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"State Machine root node is null or type not expected ({rootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
             return;
         }
-        if (_rootNode == null) _rootNode = pRootNode as Player;
+        if (_rootNode == null) _rootNode = rootNode as Player;
 
         _rootNode.CharacterAnimation.Play("idle");
 
-        _moveNode.Enter_State(pRootNode, pParam);
+        _moveNode.Enter_State(rootNode, param);
     }
 
     public void Exit_State() => _moveNode.Exit_State();
@@ -59,28 +56,28 @@ public partial class Idle_Player : Node, IState
             Play_Idle();
 
         /*
-        // Conditions of transition to Run or Air states
-        if (Nucleus_Utils.StateMachine_Player.RootNode.IsOnFloor() && _moveNode.isMoving)
-            Nucleus_Utils.StateMachine_Player.TransitionTo("Move/Run");
-        else if (!Nucleus_Utils.StateMachine_Player.RootNode.IsOnFloor())
-            Nucleus_Utils.StateMachine_Player.TransitionTo("Move/Air");
-        */
+    // Conditions of transition to Run or Air states
+    if (Nucleus_Utils.StateMachine_Player.RootNode.IsOnFloor() && _moveNode.isMoving)
+        Nucleus_Utils.StateMachine_Player.TransitionTo("Move/Run");
+    else if (!Nucleus_Utils.StateMachine_Player.RootNode.IsOnFloor())
+        Nucleus_Utils.StateMachine_Player.TransitionTo("Move/Air");
+    */
     }
 
     public void Input_State(InputEvent @event) => _moveNode.Input_State(@event);
     public string GetStateName() => Name;
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Idle()
     { }
@@ -88,5 +85,5 @@ public partial class Idle_Player : Node, IState
     private void Play_Idle()
     { }
 
-#endregion
+    #endregion
 }

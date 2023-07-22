@@ -18,7 +18,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-StateManager="*res://src/StateManager.cs"
+SignalManager="*res://src/SignalManager.cs"
+GameManager="*res://src/GameManager.cs"
 
 [debug]
 

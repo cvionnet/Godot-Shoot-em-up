@@ -1,8 +1,9 @@
 using System;
 using System.Reflection;
-using Godot;
+using BulletBallet.utils.NucleusFW.StateMachine;
 using Godot.Collections;
-using Nucleus;
+
+namespace BulletBallet.actors.characters.player.states;
 
 /// <summary>
 /// Responsible for :
@@ -11,15 +12,11 @@ using Nucleus;
 /// </summary>
 public partial class Spawn_Player : Node, IState
 {
-#region HEADER
-
     private Player _rootNode;
-
-#endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -27,20 +24,20 @@ public partial class Spawn_Player : Node, IState
         Initialize_Spawn();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region INTERFACE IMPLEMENTATION
+    #region INTERFACE IMPLEMENTATION
 
-    public void Enter_State<T>(T pRootNode, Dictionary<string, GodotObject> pParam = null)
+    public void Enter_State<T>(T rootNode, Dictionary<string, GodotObject> param = null)
     {
-        if (pRootNode == null || pRootNode.GetType() != typeof(Player))
+        if (rootNode == null || rootNode.GetType() != typeof(Player))
         {
-            Nucleus_Utils.Error($"State Machine root node is null or type not expected ({pRootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"State Machine root node is null or type not expected ({rootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
             return;
         }
-        if (_rootNode == null) _rootNode = pRootNode as Player;
+        if (_rootNode == null) _rootNode = rootNode as Player;
 
         Enter_CharacterEntrance();
 
@@ -56,17 +53,17 @@ public partial class Spawn_Player : Node, IState
 
 
         /*
-        if (_player.Skin != null)
-        {
-            _player.Skin.PlayAnimation("spawn");
-            _player.Skin.Connect("AnimationFinished", this, nameof(_on_Spawn_AnimationFinished));
-        }
-        else
-        {
-            // Force to display the Idle state
-            _on_Spawn_AnimationFinished("");
-        }
-        */
+    if (_player.Skin != null)
+    {
+        _player.Skin.PlayAnimation("spawn");
+        _player.Skin.Connect("AnimationFinished", this, nameof(_on_Spawn_AnimationFinished));
+    }
+    else
+    {
+        // Force to display the Idle state
+        _on_Spawn_AnimationFinished("");
+    }
+    */
     }
 
     public void Exit_State() { }
@@ -75,22 +72,22 @@ public partial class Spawn_Player : Node, IState
     public void Input_State(InputEvent @event) { }
     public string GetStateName() => Name;
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-    public void _on_Spawn_AnimationFinished(string anim_name)
+    public void _on_Spawn_AnimationFinished(string animName)
     {
         _rootNode.StateMachine.TransitionTo("Move/Idle", null);
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     /// <summary>
     /// Wait for the owner to be ready (owner = Node at the top of the scene), to be sure to access safely to nodes
@@ -103,9 +100,9 @@ public partial class Spawn_Player : Node, IState
     private void Enter_CharacterEntrance()
     {
         // Zoom effect when the player appears
-        _rootNode.Camera.Zoom_Camera(Nucleus_Utils.State_Manager.ZoomLevel_GAME, 0.4f);
+        _rootNode.Camera.Zoom_Camera(Nucleus.GameManager.ZoomLevelGame, 0.4f);
         _rootNode.Visible = true;
     }
 
-#endregion
+    #endregion
 }

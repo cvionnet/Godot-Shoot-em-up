@@ -1,5 +1,4 @@
-using Godot;
-using Nucleus;
+namespace BulletBallet.utils.NucleusFW.SceneManager;
 
 /// <summary>
 /// Responsible for :
@@ -7,15 +6,11 @@ using Nucleus;
 /// </summary>
 public partial class SceneTransition : Node
 {
-#region HEADER
-
     private AnimationPlayer _animation;
 
-#endregion
+    //*-------------------------------------------------------------------------*//
 
-//*-------------------------------------------------------------------------*//
-
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -23,27 +18,27 @@ public partial class SceneTransition : Node
         _animation.Connect("animation_finished", new Callable(this, nameof(_onAnimation_Finished)));
     }
 
-#endregion
+    #endregion
 
-//*-------------------------------------------------------------------------*//
+    //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-    private void _onAnimation_Finished(string anim_name)
+    private void _onAnimation_Finished(string animName)
     {
-        if (anim_name == "fadeToBlack")
+        if (animName == "fadeToBlack")
         {
             // (send to SceneManager)
-            Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.SceneTransition_AnimationFinished);
+            Nucleus.SignalManager.EmitSignal(SignalManager.SignalName.SceneTransition_AnimationFinished);
             _animation.Play("fadeToNormal");
         }
     }
 
-#endregion
+    #endregion
 
-//*-------------------------------------------------------------------------*//
+    //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     /// <summary>
     /// To activate the fade to black transition
@@ -51,5 +46,5 @@ public partial class SceneTransition : Node
     public void Transition_Scene()
         => _animation.Play("fadeToBlack");
 
-#endregion
+    #endregion
 }

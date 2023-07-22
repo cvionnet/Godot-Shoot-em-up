@@ -1,6 +1,4 @@
-using Godot;
-using Nucleus;
-using Nucleus.AI;
+namespace BulletBallet.actors.characters.pnj;
 
 /// <summary>
 /// Responsible for :
@@ -12,11 +10,9 @@ using Nucleus.AI;
 /// </summary>
 public partial class Pnj : CharacterBody2D
 {
-#region HEADER
-
     public Character CharacterProperties { get; private set; }
 
-    public StateMachine_Pnj StateMachine { get; private set; }
+    public states.StateMachine_Pnj StateMachine { get; private set; }
     public Label DebugLabel { get; private set; }
     public Label DebugLabel2 { get; private set; }
     public Timer TimerScore { get; private set; }
@@ -30,15 +26,13 @@ public partial class Pnj : CharacterBody2D
     private readonly float _maxTimerNewDestination = 10.0f;
     private readonly float _radiusMovement = 100.0f;
 
-#endregion
-
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
-        StateMachine = GetNode<StateMachine_Pnj>("StateMachine");
+        StateMachine = GetNode<states.StateMachine_Pnj>("StateMachine");
         DebugLabel = GetNode<Label>("DebugLabel");
         DebugLabel2 = GetNode<Label>("DebugLabel2");
         CharacterAnimation = GetNode<AnimationPlayer>("CharacterAnimation");
@@ -54,11 +48,11 @@ public partial class Pnj : CharacterBody2D
         Initialize_Pnj();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     /// <summary>
     /// When action time of an item finish
@@ -74,11 +68,11 @@ public partial class Pnj : CharacterBody2D
         Initialize_TimerNewDestination();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Pnj()
     {
@@ -127,7 +121,7 @@ public partial class Pnj : CharacterBody2D
     {
         // Move the character to another place around him
         CharacterProperties.Steering.Set_TargetGlobalPosition(GlobalPosition, 10.0f, 
-                                                    Nucleus_Utils.ScreenWidth-10.0f, 10.0f, Nucleus_Utils.ScreenHeight-10.0f, _radiusMovement);
+            Nucleus.ScreenWidth-10.0f, 10.0f, Nucleus.ScreenHeight-10.0f, _radiusMovement);
         
         if (CharacterProperties.DebugMode) 
             DebugLabel2.Text = Mathf.Floor(CharacterProperties.Steering.TargetGlobalPosition.X) + "/" + Mathf.Floor(CharacterProperties.Steering.TargetGlobalPosition.Y);
@@ -144,20 +138,20 @@ public partial class Pnj : CharacterBody2D
         _timerChangeDestination.Start();
     }
 
-#region ACTIONS
+    #region ACTIONS
 
     /// <summary>
     /// When an item has been touched (called by ItemGeneric)
     /// </summary>
-    /// <param name="pItemProperties">All properties of the item touched</param>
-    /// <param name="pItemTouchedBy">The name of the node that hits the item</param>
-    public void Item_Action(CItem pItemProperties, string pItemTouchedBy)
+    /// <param name="itemProperties">All properties of the item touched</param>
+    /// <param name="itemTouchedBy">The name of the node that hits the item</param>
+    public void Item_Action(items.classes.Item itemProperties, string itemTouchedBy)
     {
         // Call the generic method
-        CharacterProperties.ActionFrom_Item(pItemProperties, pItemTouchedBy, _timerItemActionDuration);
+        CharacterProperties.ActionFrom_Item(itemProperties, itemTouchedBy, _timerItemActionDuration);
     }
 
-#endregion ACTIONS
+    #endregion ACTIONS
 
-#endregion
+    #endregion
 }

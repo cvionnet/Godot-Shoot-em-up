@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://br8di38mkntnp"]
+
+[ext_resource type="Script" path="res://src/utils/Nucleus/SceneManager/SceneManager.cs" id="1_dt31i"]
+[ext_resource type="PackedScene" path="res://src/utils/Nucleus/SceneManager/SceneTransition.tscn" id="2_s545c"]
+[ext_resource type="Script" path="res://src/utils/Nucleus/SceneManager/SceneTransition.cs" id="3_xujp3"]
+
+[node name="SceneManager" type="Node"]
+script = ExtResource("1_dt31i")
+
+[node name="SceneTransition" parent="." instance=ExtResource("2_s545c")]
+script = ExtResource("3_xujp3")

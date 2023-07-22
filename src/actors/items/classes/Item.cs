@@ -1,13 +1,14 @@
 ﻿// Inherite from Godot.Object to allow the class to be send in Signal or CallGroup (https://github.com/godotengine/godot/issues/36351)
 // 💢 : "Attempted to convert an unmarshallable managed type to Variant"
-using Godot;
 
-public partial class CItem : GodotObject
+namespace BulletBallet.actors.items.classes;
+
+public partial class Item : GodotObject
 {
     public string SpritePath { get; set; }                      // The path to load the sprite
 
-    public StateManager.ItemsActionList ActionName {get; set;}  // To tell the receiver which action to realize in its list
-    public StateManager.ItemsSendTo SendTo {get; set;}          // Who is concerned by the action to do
+    public GameManager.ItemsActionList ActionName {get; set;}  // To tell the receiver which action to realize in its list
+    public GameManager.ItemsSendTo SendTo {get; set;}          // Who is concerned by the action to do
 
     public int MaxVisibleInstance {get; set;}                   // How much instance of this item to display on screen
     public bool UniqueItem {get; set;}                          // If true, the item is displayed once

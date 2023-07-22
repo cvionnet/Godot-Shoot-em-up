@@ -1,8 +1,9 @@
 using System;
 using System.Reflection;
-using Godot;
+using BulletBallet.utils.NucleusFW.StateMachine;
 using Godot.Collections;
-using Nucleus;
+
+namespace BulletBallet.actors.characters.pnj.states;
 
 /// <summary>
 /// Responsible for :
@@ -10,15 +11,11 @@ using Nucleus;
 /// </summary>
 public partial class Spawn_Pnj : Node, IState
 {
-#region HEADER
-
     private Pnj _rootNode;
-
-#endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     // Called when the node enters the scene tree for the first time
     public override void _Ready()
@@ -27,20 +24,20 @@ public partial class Spawn_Pnj : Node, IState
         Initialize_Spawn();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region INTERFACE IMPLEMENTATION
+    #region INTERFACE IMPLEMENTATION
 
-    public void Enter_State<T>(T pRootNode, Dictionary<string, GodotObject> pParam = null)
+    public void Enter_State<T>(T rootNode, Dictionary<string, GodotObject> param = null)
     {
-        if (pRootNode == null || pRootNode.GetType() != typeof(Pnj))
+        if (rootNode == null || rootNode.GetType() != typeof(Pnj))
         {
-            Nucleus_Utils.Error($"State Machine root node is null or type not expected ({pRootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"State Machine root node is null or type not expected ({rootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
             return;
         }
-        if (_rootNode == null) _rootNode = pRootNode as Pnj;
+        if (_rootNode == null) _rootNode = rootNode as Pnj;
         if (_rootNode.CharacterProperties.DebugMode) _rootNode.DebugLabel.Text = _rootNode.StateMachine.ActiveState.GetStateName();
 
         Enter_CharacterEntrance();
@@ -56,26 +53,26 @@ public partial class Spawn_Pnj : Node, IState
         _rootNode.StateMachine.TransitionTo("Idle");
 
         /*
-        if (_player.Skin != null)
-        {
-            _player.Skin.PlayAnimation("spawn");
-            _player.Skin.Connect("AnimationFinished", this, nameof(_on_Spawn_AnimationFinished));
-        }
-        else
-        {
-            _on_Spawn_AnimationFinished("");
-        }
-        */
+    if (_player.Skin != null)
+    {
+        _player.Skin.PlayAnimation("spawn");
+        _player.Skin.Connect("AnimationFinished", this, nameof(_on_Spawn_AnimationFinished));
+    }
+    else
+    {
+        _on_Spawn_AnimationFinished("");
+    }
+    */
     }
 
     public void Exit_State()
     {
         /*
-        if (_player.Skin != null)
-        {
-            _player.Skin.Disconnect("AnimationFinished", this, nameof(_on_Spawn_AnimationFinished));
-        }
-        */
+    if (_player.Skin != null)
+    {
+        _player.Skin.Disconnect("AnimationFinished", this, nameof(_on_Spawn_AnimationFinished));
+    }
+    */
     }
 
     public void Update(double delta) { }
@@ -83,22 +80,22 @@ public partial class Spawn_Pnj : Node, IState
     public void Input_State(InputEvent @event) { }
     public string GetStateName() => Name;
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-    public void _on_Spawn_AnimationFinished(string anim_name)
+    public void _on_Spawn_AnimationFinished(string animName)
     {
         _rootNode.StateMachine.TransitionTo("Idle");
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     /// <summary>
     /// Wait for the owner to be ready (owner = Node at the top of the scene), to be sure to access safely to nodes
@@ -113,5 +110,5 @@ public partial class Spawn_Pnj : Node, IState
         _rootNode.Visible = true;
     }
 
-#endregion
+    #endregion
 }

@@ -1,5 +1,6 @@
-using Godot;
-using Nucleus;
+using BulletBallet.utils.NucleusFW.SpawnFactory;
+
+namespace BulletBallet.actors.characters;
 
 /// <summary>
 /// Responsible for :
@@ -8,8 +9,6 @@ using Nucleus;
 /// </summary>
 public partial class CharactersBrain : Node2D
 {
-#region HEADER
-
     //! How to add a new character : see file "README.drawio"  (How to)
 
     private Spawn_Factory _spawnPNJs;
@@ -17,11 +16,9 @@ public partial class CharactersBrain : Node2D
 
     //private List<Pnj> _listPNJs = new List<Pnj>();     // TODO : performance => use an ARRAY ?  (et ajouter l'id dans les propriétés du ItemGeneric)
 
-#endregion
-
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -31,17 +28,17 @@ public partial class CharactersBrain : Node2D
         Initialize_CharactersBrain();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_CharactersBrain()
     {
@@ -56,9 +53,9 @@ public partial class CharactersBrain : Node2D
     {
         if(_spawnPNJs.Load_NewScene("res://src/actors/characters/pnj/Pnj.tscn"))
         {
-            for (int i = 0; i < Nucleus_Utils.State_Manager.LevelActive.PnjNumberToDisplay; i++)
+            for (int i = 0; i < Nucleus.GameManager.LevelActive.PnjNumberToDisplay; i++)
             {
-                _spawnPNJs.Add_Instance<Pnj>(GetNode("Spawn_Pnj"), new Vector2(100,100), 0, "Pnj");
+                _spawnPNJs.Add_Instance<pnj.Pnj>(GetNode("Spawn_Pnj"), new Vector2(100,100), 0, "Pnj");
                 //_listPNJs.Add(instance);
             }
         }
@@ -67,17 +64,17 @@ public partial class CharactersBrain : Node2D
     /// <summary>
     /// Spawn a Player on the map
     /// </summary>
-    private void Generate_Player(int pNumberofPlayers)
+    private void Generate_Player(int numberofPlayers)
     {
         if(_spawnPlayers.Load_NewScene("res://src/actors/characters/player/Player.tscn"))
         {
-            for (int i = 0; i < pNumberofPlayers; i++)
+            for (int i = 0; i < numberofPlayers; i++)
             {
-                _spawnPlayers.Add_Instance<Player>(GetNode("Spawn_Player"), new Vector2(100,100), 0, "Player");
+                _spawnPlayers.Add_Instance<player.Player>(GetNode("Spawn_Player"), new Vector2(100,100), 0, "Player");
                 //_listPlayers.Add(instance);
             }
         }
     }
 
-#endregion
+    #endregion
 }

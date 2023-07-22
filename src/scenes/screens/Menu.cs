@@ -1,5 +1,4 @@
-using Godot;
-using Nucleus;
+namespace BulletBallet.scenes.screens;
 
 /// <summary>
 /// Responsible for :
@@ -7,15 +6,11 @@ using Nucleus;
 /// </summary>
 public partial class Menu : Node
 {
-#region HEADER
-
     private Button _buttonStart;
-
-#endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -25,11 +20,11 @@ public partial class Menu : Node
         Initialize_Menu();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     /// <summary>
     /// Button "Start"
@@ -37,18 +32,18 @@ public partial class Menu : Node
     private void _onButtonStart_Pressed()
     {
         // Go to 1st level
-        Nucleus_Utils.State_Manager.LevelActive = Nucleus_Utils.State_Manager.LevelList[0];
-        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.Generic_TransitionScene, $"levels/Level{Nucleus_Utils.State_Manager.LevelActive.LevelId}");    // (to SceneManager)
+        Nucleus.GameManager.LevelActive = Nucleus.GameManager.LevelList[0];
+        Nucleus.SignalManager.EmitSignal(SignalManager.SignalName.Generic_TransitionScene, $"levels/Level{Nucleus.GameManager.LevelActive.LevelId}");    // (to SceneManager)
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Menu()
     { }
 
-#endregion
+    #endregion
 }

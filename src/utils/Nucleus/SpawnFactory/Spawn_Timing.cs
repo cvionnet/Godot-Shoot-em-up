@@ -1,9 +1,9 @@
-using Nucleus;
+namespace BulletBallet.utils.NucleusFW.SpawnFactory;
 
 /// <summary>
 /// A class to define timing options to apply to spawn an instance
 /// </summary>
-public class Spawn_Timing
+public sealed class Spawn_Timing
 {
     public bool IsTimed { get; private set; }
     public bool IsRandomTime { get; private set; }
@@ -14,18 +14,18 @@ public class Spawn_Timing
     /// <summary>
     /// Constructor (empty constructor : timing options are disabled)
     /// </summary>
-    /// <param name="pIsTimed">Set to true to create a Spawn_Timing</param>
-    /// <param name="pIsRandomTime">Use a random spawn timing ?</param>
-    /// <param name="pIsRandomTimePerSpawn">Set a random spawn timing on each instance ?</param>
-    /// <param name="pMinTime">Minimum time to wait before creating a new instance</param>
-    /// <param name="pMaxTime">Maximum time to wait before creating a new instance (used if pIsRandomTime or pIsRandomTimePerSpawn=true)</param>
-    public Spawn_Timing(bool pIsTimed=false, bool pIsRandomTime=false, bool pIsRandomTimePerSpawn=false, float pMinTime=0.0f, float pMaxTime=1.0f)
+    /// <param name="isTimed">Set to true to create a Spawn_Timing</param>
+    /// <param name="isRandomTime">Use a random spawn timing ?</param>
+    /// <param name="isRandomTimePerSpawn">Set a random spawn timing on each instance ?</param>
+    /// <param name="minTime">Minimum time to wait before creating a new instance</param>
+    /// <param name="maxTime">Maximum time to wait before creating a new instance (used if pIsRandomTime or pIsRandomTimePerSpawn=true)</param>
+    public Spawn_Timing(bool isTimed=false, bool isRandomTime=false, bool isRandomTimePerSpawn=false, float minTime=0.0f, float maxTime=1.0f)
     {
-        IsTimed = pIsTimed;
-        IsRandomTime = pIsRandomTime;
+        IsTimed = isTimed;
+        IsRandomTime = isRandomTime;
         //IsRandomTimePerSpawn = pIsRandomTimePerSpawn;
-        MinTime = pMinTime;
-        MaxTime = pMaxTime;
+        MinTime = minTime;
+        MaxTime = maxTime;
     }
 
     /// <summary>

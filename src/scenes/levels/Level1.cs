@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace BulletBallet.scenes.levels;
 
 /// <summary>
 /// Responsible for :
@@ -7,35 +6,31 @@ using System;
 /// </summary>
 public partial class Level1 : Node
 {
-#region HEADER
-
 //    [Signal] private delegate void Generic_TransitionScene(string nextScene);
-
-#endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
         Initialize_Level1();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Level1()
     { }
 
-#endregion
+    #endregion
 }

@@ -1,12 +1,11 @@
-using Godot;
-using Nucleus;
+namespace BulletBallet.actors.characters.classes;
 
 /// <summary>
 /// Extends the Character class with properties and methods specific to this game
 /// </summary>
 public partial class Character
 {
-#region CHARACTER
+    #region CHARACTER
 
     /// <summary>
     /// Update the score and send a signal to update the UI
@@ -22,68 +21,68 @@ public partial class Character
         }
 
         Score += point;
-        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.Player_UiPlayer_UpdatedScore, Score);
+        Nucleus.SignalManager.EmitSignal(SignalManager.SignalName.Player_UiPlayer_UpdatedScore, Score);
     }
 
-#endregion
+    #endregion
 
-#region ACTIONS
+    #region ACTIONS
 
     // Store the active item action (null if no action) and its optional value
-    private StateManager.ItemsActionList? _itemActionActive = null;
+    private GameManager.ItemsActionList? _itemActionActive = null;
     private float _itemActionOptionalValue;
 
     /// <summary>
     /// When an item has been touched and send an action to a character
     /// </summary>
-    /// <param name="pItemProperties">All properties of the item touched</param>
-    /// <param name="pItemTouchedBy">The name of the node that hits the item</param>
-    /// <param name="pTimerActionDuration">The Timer used in the character scene to set how much time the action will be active</param>
-    public void ActionFrom_Item(CItem pItemProperties, string pItemTouchedBy, Timer pTimerActionDuration)
+    /// <param name="itemProperties">All properties of the item touched</param>
+    /// <param name="itemTouchedBy">The name of the node that hits the item</param>
+    /// <param name="timerActionDuration">The Timer used in the character scene to set how much time the action will be active</param>
+    public void ActionFrom_Item(items.classes.Item itemProperties, string itemTouchedBy, Timer timerActionDuration)
     {
         bool actionToExecute = false;
 
         // Who to apply the item effect ?
-        switch (pItemProperties.SendTo)
+        switch (itemProperties.SendTo)
         {
-            case StateManager.ItemsSendTo.CHARACTER:
+            case GameManager.ItemsSendTo.CHARACTER:
                 if (_itemActionActive == null)
                 {
                     // What to apply ?
-                    switch (pItemProperties.ActionName)
+                    switch (itemProperties.ActionName)
                     {
-                        case StateManager.ItemsActionList.CHARACTER_FASTER:
+                        case GameManager.ItemsActionList.CHARACTER_FASTER:
                             actionToExecute = true;
-                            MaxSpeed *= pItemProperties.OptionalValue;
+                            MaxSpeed *= itemProperties.OptionalValue;
                             break;
                     }
                 }
 
                 break;
-            case StateManager.ItemsSendTo.OTHER_CHARACTERS:
-                if (pItemTouchedBy != Name && _itemActionActive == null)
+            case GameManager.ItemsSendTo.OTHER_CHARACTERS:
+                if (itemTouchedBy != Name && _itemActionActive == null)
                 {
                     // What to apply ?
-                    switch (pItemProperties.ActionName)
+                    switch (itemProperties.ActionName)
                     {
-                        case StateManager.ItemsActionList.OTHER_CHARACTERS_SLOWER:
+                        case GameManager.ItemsActionList.OTHER_CHARACTERS_SLOWER:
                             actionToExecute = true;
 //                            Steering.Speed = MaxSpeed.x - (MaxSpeed.x * 0.3f);
-                            MaxSpeed *= pItemProperties.OptionalValue;
+                            MaxSpeed *= itemProperties.OptionalValue;
                             break;
                     }
                 }
 
                 break;
-            case StateManager.ItemsSendTo.ALL_CHARACTERS:
+            case GameManager.ItemsSendTo.ALL_CHARACTERS:
                 if (_itemActionActive == null)
                 {
                     // What to apply ?
-                    switch (pItemProperties.ActionName)
+                    switch (itemProperties.ActionName)
                     {
-                        case StateManager.ItemsActionList.ALL_CHARACTERS_FASTER:
+                        case GameManager.ItemsActionList.ALL_CHARACTERS_FASTER:
                             actionToExecute = true;
-                            MaxSpeed *= pItemProperties.OptionalValue;
+                            MaxSpeed *= itemProperties.OptionalValue;
                             break;
                     }
                 }
@@ -94,11 +93,11 @@ public partial class Character
         // Save active state properties and start timer if an action has been founded
         if (actionToExecute)
         {
-            _itemActionActive = pItemProperties.ActionName;
-            _itemActionOptionalValue = pItemProperties.OptionalValue;
+            _itemActionActive = itemProperties.ActionName;
+            _itemActionOptionalValue = itemProperties.OptionalValue;
 
-            pTimerActionDuration.WaitTime = pItemProperties.ActionDuration;
-            pTimerActionDuration.Start();
+            timerActionDuration.WaitTime = itemProperties.ActionDuration;
+            timerActionDuration.Start();
 
             //GD.Print("=> " + Name + " // ActionName: " + pItemProperties.ActionName + " // ActionDuration:" + pItemProperties.ActionDuration);
         }
@@ -113,9 +112,9 @@ public partial class Character
         {
             switch (_itemActionActive)
             {
-                case StateManager.ItemsActionList.CHARACTER_FASTER:
-                case StateManager.ItemsActionList.OTHER_CHARACTERS_SLOWER:
-                case StateManager.ItemsActionList.ALL_CHARACTERS_FASTER:
+                case GameManager.ItemsActionList.CHARACTER_FASTER:
+                case GameManager.ItemsActionList.OTHER_CHARACTERS_SLOWER:
+                case GameManager.ItemsActionList.ALL_CHARACTERS_FASTER:
                     //GD.Print($"=> {Name} - End action {_itemActionActive}");
                     _itemActionActive = null;
                     MaxSpeed *= 1/_itemActionOptionalValue;
@@ -124,9 +123,9 @@ public partial class Character
         }
     }
 
-#endregion
+    #endregion
 
-#region DASH MOVEMENTS
+    #region DASH MOVEMENTS
 
     public float Dash_SpeedBoost { get; set; }      // default percentage to boost the character maxspeed
     public bool IsDashing { get; set; } = false;
@@ -141,6 +140,6 @@ public partial class Character
     }
     private Vector2 _maxSpeed_Default;
 
-#endregion
+    #endregion
 
 }

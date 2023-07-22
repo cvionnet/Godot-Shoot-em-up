@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Godot;
 
+namespace BulletBallet.utils.debug_panel;
 // Thanks to Gonkee : https://youtu.be/8Us2cteHbbo
 // Doc : https://docs.godotengine.org/en/stable/classes/class_performance.html
 
@@ -57,8 +57,6 @@ public class Properties
 /// </summary>
 public partial class Debug_Panel : Node2D
 {
-#region HEADER
-
     [Export] private int FontSize = 16;
     [Export] private bool FPS = true;
     [Export] private bool Drawcalls = true;
@@ -82,11 +80,9 @@ public partial class Debug_Panel : Node2D
 
     private List<Properties> _propertiesList = new List<Properties>();
 
-#endregion
-
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -145,28 +141,28 @@ public partial class Debug_Panel : Node2D
         _Update_Properties();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     /// <summary>
     /// To add a new property to display on the Debug panel
     /// </summary>
-    /// <param name="pProperty">A Properties object</param>
-    public void Add_Property(Properties pProperty)
+    /// <param name="property">A Properties object</param>
+    public void Add_Property(Properties property)
     {
-        if (pProperty == null || pProperty.Name == null || pProperty.GodotObject == null || pProperty.Reference == null || pProperty.Name?.Length == 0 || pProperty.Reference?.Length == 0)
+        if (property == null || property.Name == null || property.GodotObject == null || property.Reference == null || property.Name?.Length == 0 || property.Reference?.Length == 0)
             return;
 
-        _propertiesList.Add(pProperty);
+        _propertiesList.Add(property);
     }
 
     /// <summary>
@@ -194,5 +190,5 @@ public partial class Debug_Panel : Node2D
         }
     }
 
-#endregion
+    #endregion
 }

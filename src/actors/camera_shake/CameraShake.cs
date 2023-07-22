@@ -1,10 +1,10 @@
+using BulletBallet.utils.NucleusFW;
 using Godot;
-using Nucleus;
+
+namespace BulletBallet.actors.camera_shake;
 
 public partial class CameraShake : Camera2D
 {
-#region HEADER
-
     [Export] private FastNoiseLite Noise;
     [Export] private float ZoomMinValue = 0.1f;
     [Export] private float ZoomMaxValue = 1.0f;
@@ -34,11 +34,9 @@ public partial class CameraShake : Camera2D
     private float _zoomTargetLevel = 1.0f;   // camera's target zoom level
     private Vector2 _zoomTargetPosition;   // where to position the center of the camera's during a zoom
 
-#endregion
-
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -61,30 +59,30 @@ public partial class CameraShake : Camera2D
         //    Position = GetGlobalMousePosition();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     // When the shake ends
     private void _ShakeLength_Timeout()
     {
         _isShaking = false;
-        Offset = Nucleus_Utils.VECTOR_0;    // reset the camera position
+        Offset = Nucleus_Maths.VECTOR_0;    // reset the camera position
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     /// <summary>
     /// Process the shake
@@ -93,7 +91,7 @@ public partial class CameraShake : Camera2D
     {
         _time += delta;
 
-    	float amount = Mathf.Pow(_shakeAmplitude, _shakeAmplitudePower);
+        float amount = Mathf.Pow(_shakeAmplitude, _shakeAmplitudePower);
 
         float x = _onXAxis ? Noise.GetNoise3D((float)(_time * _speed), 0.0f, 0.0f) * _shakeMaxOffset.X * amount : 0.0f;
         float y = _onYAxis ? Noise.GetNoise3D(0.0f, (float)(_time * _speed), 0.0f) * _shakeMaxOffset.Y * amount : 0.0f;
@@ -106,15 +104,15 @@ public partial class CameraShake : Camera2D
     /// <summary>
     /// To zoom the camera
     /// </summary>
-    /// <param name="pZoomValue">Zoom factor</param>
-    /// <param name="pZoomDuration">(optional - empty = ZoomDefaultZoomduration value) How fast the zoom occurs (small value = faster) </param>
-    public void Zoom_Camera(float pZoomValue, float pZoomDuration = -1.0f)
+    /// <param name="zoomValue">Zoom factor</param>
+    /// <param name="zoomDuration">(optional - empty = ZoomDefaultZoomduration value) How fast the zoom occurs (small value = faster) </param>
+    public void Zoom_Camera(float zoomValue, float zoomDuration = -1.0f)
     {
         // Set zoom speed
-        _zoomDuration = pZoomDuration == -1.0f ? ZoomDefaultZoomduration : pZoomDuration;
+        _zoomDuration = zoomDuration == -1.0f ? ZoomDefaultZoomduration : zoomDuration;
 
         // Limit the zoom value between `min_zoom` and `max_zoom`
-        _zoomTargetLevel = Mathf.Clamp(pZoomValue, ZoomMinValue, ZoomMaxValue);
+        _zoomTargetLevel = Mathf.Clamp(zoomValue, ZoomMinValue, ZoomMaxValue);
 
         // Animate the zoom
         //_tween.InterpolateProperty(this, "zoom", Zoom, new Vector2(_zoomTargetLevel, _zoomTargetLevel), _zoomDuration, Tween.TransitionType.Sine, Tween.EaseType.Out);
@@ -126,13 +124,13 @@ public partial class CameraShake : Camera2D
     /// <summary>
     /// To zoom the camera
     /// </summary>
-    /// <param name="pZoomValue">Zoom factor</param>
-    /// <param name="pZoomTargetPosition">The position where to place the camera during the zoom</param>
-    /// <param name="pZoomDuration">How fast the zoom occurs (small value = faster)(empty = ZoomDefaultZoomduration value) </param>
-    public void Zoom_Camera(float pZoomValue, Vector2 pZoomTargetPosition, float pZoomDuration = -1.0f)
+    /// <param name="zoomValue">Zoom factor</param>
+    /// <param name="zoomTargetPosition">The position where to place the camera during the zoom</param>
+    /// <param name="zoomDuration">How fast the zoom occurs (small value = faster)(empty = ZoomDefaultZoomduration value) </param>
+    public void Zoom_Camera(float zoomValue, Vector2 zoomTargetPosition, float zoomDuration = -1.0f)
     {
-        Position = pZoomTargetPosition;
-        Zoom_Camera(pZoomValue, pZoomDuration);
+        Position = zoomTargetPosition;
+        Zoom_Camera(zoomValue, zoomDuration);
     }
 
     /// <summary>
@@ -140,51 +138,50 @@ public partial class CameraShake : Camera2D
     ///     EG : simple shake  : _camera.Start_Shake(0.5f, 600.0f, 0.3f, true, false);
     ///     EG : shake + flash : _camera.Start_Shake(0.3f, 250.0f, 0.8f, true, true, false, 0.1f, 0.5f);
     /// </summary>
-    /// <param name="pDuration">Shake : how long will it lasts</param>
-    /// <param name="pSpeed">Shake : how fast will it moves</param>
-    /// <param name="pStrength">Shake : how far will it goes (amplitude [0, 1])</param>
-    /// <param name="pXAxis">Shake : true to move on X axis</param>
-    /// <param name="pYAxis">Shake : true to move on Y axis</param>
-    /// <param name="pUseRotation">Shake : true to allow rotation</param>
-    /// <param name="pFlashScreen_Speed">Flash : how fast will it lasts</param>
-    /// <param name="pFlashScreen_Strength">Flash : alpha intensity (1.0f = no transparency)</param>
-    public void Start_Shake(float pDuration, float pSpeed, float pStrength, bool pXAxis = true, bool pYAxis = true, bool pUseRotation = false, float pFlashScreen_Speed = 0.0f, float pFlashScreen_Strength = 0.0f)
+    /// <param name="duration">Shake : how long will it lasts</param>
+    /// <param name="speed">Shake : how fast will it moves</param>
+    /// <param name="strength">Shake : how far will it goes (amplitude [0, 1])</param>
+    /// <param name="xAxis">Shake : true to move on X axis</param>
+    /// <param name="yAxis">Shake : true to move on Y axis</param>
+    /// <param name="useRotation">Shake : true to allow rotation</param>
+    /// <param name="flashScreenSpeed">Flash : how fast will it lasts</param>
+    /// <param name="flashScreenStrength">Flash : alpha intensity (1.0f = no transparency)</param>
+    public void Start_Shake(float duration, float speed, float strength, bool xAxis = true, bool yAxis = true, bool useRotation = false, float flashScreenSpeed = 0.0f, float flashScreenStrength = 0.0f)
     {
         // Shake
-        _shakeAmplitude = pStrength;
-        _speed = pSpeed;
-        _onXAxis = pXAxis;
-        _onYAxis = pYAxis;
-        _useRotation = pUseRotation;
+        _shakeAmplitude = strength;
+        _speed = speed;
+        _onXAxis = xAxis;
+        _onYAxis = yAxis;
+        _useRotation = useRotation;
 
-        _shakeLength.Start(pDuration);  // when the shake ends
+        _shakeLength.Start(duration);  // when the shake ends
         _isShaking = true;
 
         // Flash
-        if (pFlashScreen_Speed != 0.0f)
-            _Start_Flash(pFlashScreen_Speed, pFlashScreen_Strength);
+        if (flashScreenSpeed != 0.0f)
+            _Start_Flash(flashScreenSpeed, flashScreenStrength);
     }
 
     /// <summary>
     /// Start to flash the screen
     /// </summary>
-    /// <param name="pSpeed">How fast</param>
-    /// <param name="pStrength">Alpha intensity (1.0f = no transparency)</param>
-    async private void _Start_Flash(float pSpeed, float pStrength)
+    /// <param name="speed">How fast</param>
+    /// <param name="strength">Alpha intensity (1.0f = no transparency)</param>
+    async private void _Start_Flash(float speed, float strength)
     {
         //_tween.InterpolateProperty(_flash, "modulate:a", 0, pStrength, pSpeed, Tween.TransitionType.Sine, Tween.EaseType.Out);
-        _tween.TweenProperty(_flash, "modulate:a", pStrength, pSpeed).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
+        _tween.TweenProperty(_flash, "modulate:a", strength, speed).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
         _tween.Play();
 
-        await ToSignal(GetTree().CreateTimer(pSpeed), "timeout");
+        await ToSignal(GetTree().CreateTimer(speed), "timeout");
         //_tween.InterpolateProperty(_flash, "modulate:a", pStrength, 0, pSpeed, Tween.TransitionType.Sine, Tween.EaseType.Out);
-        _tween.TweenProperty(_flash, "modulate:a", pStrength, pSpeed).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
+        _tween.TweenProperty(_flash, "modulate:a", strength, speed).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
         _tween.Play();
     }
 
-#endregion
+    #endregion
 }
-
 
 
 /*

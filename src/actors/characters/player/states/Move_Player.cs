@@ -1,9 +1,10 @@
 using System;
 using System.Reflection;
-using Godot;
+using BulletBallet.utils.NucleusFW.StateMachine;
+using BulletBallet.utils.NucleusFW.Physics;
 using Godot.Collections;
-using Nucleus;
-using Nucleus.Physics;
+
+namespace BulletBallet.actors.characters.player.states;
 
 /// <summary>
 /// Responsible for :
@@ -14,8 +15,6 @@ using Nucleus.Physics;
 /// </summary>
 public partial class Move_Player : Node, IState
 {
-#region HEADER
-
     private Player _rootNode;
 
     public Vector2 Acceleration_Default { get; private set; }
@@ -23,32 +22,30 @@ public partial class Move_Player : Node, IState
 
     private bool _zoomOut = false;
 
-#endregion
-
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
         Initialize_Move();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region INTERFACE IMPLEMENTATION
+    #region INTERFACE IMPLEMENTATION
 
-    public void Enter_State<T>(T pRootNode, Dictionary<string, GodotObject> pParam = null)
+    public void Enter_State<T>(T rootNode, Dictionary<string, GodotObject> param = null)
     {
-        if (pRootNode == null || pRootNode.GetType() != typeof(Player))
+        if (rootNode == null || rootNode.GetType() != typeof(Player))
         {
-            Nucleus_Utils.Error($"State Machine root node is null or type not expected ({pRootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"State Machine root node is null or type not expected ({rootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
             return;
         }
         if (_rootNode == null) {
-            _rootNode = pRootNode as Player;
+            _rootNode = rootNode as Player;
 
             _rootNode.TimerScore.Connect("timeout", new Callable(this, nameof(onTimerScore_Timeout)));
         }
@@ -92,22 +89,22 @@ public partial class Move_Player : Node, IState
 
     public string GetStateName() => Name;
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     /// <summary>
     /// Update the score
     /// </summary>
     private void onTimerScore_Timeout() => _rootNode.CharacterProperties.Update_Score(1);
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Move()
     { }
@@ -139,7 +136,7 @@ public partial class Move_Player : Node, IState
 
         _rootNode.Velocity = _rootNode.CharacterProperties.Velocity;
         if (_rootNode.CharacterProperties.IsPlateformer)
-            _rootNode.UpDirection = Nucleus_Utils.VECTOR_FLOOR;
+            _rootNode.UpDirection = Nucleus_Maths.VECTOR_FLOOR;
         
         //_rootNode.CharacterProperties.Velocity = _rootNode.MoveAndSlide();
         _rootNode.MoveAndSlide();
@@ -168,12 +165,12 @@ public partial class Move_Player : Node, IState
     {
         if (@event.IsActionPressed("button_Y") && !_zoomOut)
         {
-            _rootNode.Camera.Zoom_Camera(Nucleus_Utils.State_Manager.ZoomLevel_GAME);
+            _rootNode.Camera.Zoom_Camera(Nucleus.GameManager.ZoomLevelGame);
             _zoomOut = true;
         }
         else if (@event.IsActionPressed("button_Y") && _zoomOut)
         {
-            _rootNode.Camera.Zoom_Camera(Nucleus_Utils.State_Manager.ZoomLevel_ZOOMOUT);
+            _rootNode.Camera.Zoom_Camera(Nucleus.GameManager.ZoomLevelZoomOut);
             _zoomOut = false;
         }
     }
@@ -184,5 +181,5 @@ public partial class Move_Player : Node, IState
     private void Check_UpdateScore()
     { }
 
-#endregion
+    #endregion
 }
