@@ -47,8 +47,8 @@ public partial class SceneManager : Node
 	/// </summary>
 	private void _onSceneTransition_Finished()
 	{
-		//PackedScene scene = GD.Load<PackedScene>($"res://src/scenes/{_nextScene}.tscn");
-		PackedScene scene = ResourceLoader.Load($"res://src/scenes/{_nextScene}.tscn") as PackedScene;
+		Nucleus.Logs.Info(_nextScene);
+		PackedScene scene = ResourceLoader.Load<PackedScene>($"res://src/scenes/{_nextScene}.tscn");
 
 		if (scene != null)
 		{

@@ -34,14 +34,14 @@ public partial class CameraShake : Camera2D
     private float _zoomTargetLevel = 1.0f;   // camera's target zoom level
     private Vector2 _zoomTargetPosition;   // where to position the center of the camera's during a zoom
 
-//*-------------------------------------------------------------------------*//
+    //*-------------------------------------------------------------------------*//
 
     #region GODOT METHODS
 
     public override void _Ready()
     {
         _shakeLength = GetNode<Timer>("ShakeLength");
-        _tween = GetNode<Tween>("Tween");
+        _tween = GetTree().CreateTween();
         _flash = GetNode<ColorRect>("Flash");
 
         _shakeLength.Connect("timeout",new Callable(this, nameof(_ShakeLength_Timeout)));
@@ -61,13 +61,7 @@ public partial class CameraShake : Camera2D
 
     #endregion
 
-//*-------------------------------------------------------------------------*//
-
-    #region SIGNAL CALLBACKS
-
-    #endregion
-
-//*-------------------------------------------------------------------------*//
+    //*-------------------------------------------------------------------------*//
 
     #region SIGNAL CALLBACKS
 
@@ -80,7 +74,7 @@ public partial class CameraShake : Camera2D
 
     #endregion
 
-//*-------------------------------------------------------------------------*//
+    //*-------------------------------------------------------------------------*//
 
     #region USER METHODS
 
@@ -115,8 +109,7 @@ public partial class CameraShake : Camera2D
         _zoomTargetLevel = Mathf.Clamp(zoomValue, ZoomMinValue, ZoomMaxValue);
 
         // Animate the zoom
-        //_tween.InterpolateProperty(this, "zoom", Zoom, new Vector2(_zoomTargetLevel, _zoomTargetLevel), _zoomDuration, Tween.TransitionType.Sine, Tween.EaseType.Out);
-        _tween.TweenProperty(this, "zoom", new Vector2(_zoomTargetLevel, _zoomTargetLevel), _zoomDuration).SetTrans(Tween.TransitionType.Bounce).SetEase(Tween.EaseType.Out);
+        _tween.TweenProperty(this, "zoom", new Vector2(_zoomTargetLevel, _zoomTargetLevel), _zoomDuration);//.SetTrans(Tween.TransitionType.Bounce).SetEase(Tween.EaseType.Out);
 
         _tween.Play();
     }
@@ -170,12 +163,10 @@ public partial class CameraShake : Camera2D
     /// <param name="strength">Alpha intensity (1.0f = no transparency)</param>
     async private void _Start_Flash(float speed, float strength)
     {
-        //_tween.InterpolateProperty(_flash, "modulate:a", 0, pStrength, pSpeed, Tween.TransitionType.Sine, Tween.EaseType.Out);
         _tween.TweenProperty(_flash, "modulate:a", strength, speed).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
         _tween.Play();
 
         await ToSignal(GetTree().CreateTimer(speed), "timeout");
-        //_tween.InterpolateProperty(_flash, "modulate:a", pStrength, 0, pSpeed, Tween.TransitionType.Sine, Tween.EaseType.Out);
         _tween.TweenProperty(_flash, "modulate:a", strength, speed).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
         _tween.Play();
     }

@@ -130,7 +130,7 @@ public partial class ItemGeneric : Area2D
     {
         try
         {
-            PackedScene scene = ResourceLoader.Load(ItemProperties.SpritePath) as PackedScene;
+            PackedScene scene = ResourceLoader.Load<PackedScene>(ItemProperties.SpritePath);
             if (scene != null)
             {
                 instanceSprite = (AnimatedSprite2D)scene.Instantiate();

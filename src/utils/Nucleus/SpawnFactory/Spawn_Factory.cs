@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+// ReSharper disable InvalidXmlDocComment
 
 namespace BulletBallet.utils.NucleusFW.SpawnFactory;
 
 /// <summary>
 /// A class to spawn new instance of a scene
 /// How to use it :
-///     1. ⚠️ the scene that will be instancied must have a script attached
+///     1. ⚠️ the scene that will be instanced must have a script attached
 ///     2. in the scene where to spawn :
 ///         1. add the Spawn_Factory scene as a node and rename it (eg : Spawn_Enemies)
 ///         2. in the parent code, in the "_Ready()" method, put the following code inside
@@ -56,7 +57,7 @@ public partial class Spawn_Factory : Marker2D
         {
             try
             {
-                PackedScene scene = ResourceLoader.Load(path) as PackedScene;
+                PackedScene scene = ResourceLoader.Load<PackedScene>(path);
                 if (scene != null)
                 {
                     ListScenes.Add(scene);
@@ -64,25 +65,25 @@ public partial class Spawn_Factory : Marker2D
                 }
                 else
                 {
-                    throw new System.NullReferenceException();
+                    throw new NullReferenceException();
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                NucleusFW.Nucleus.Logs.Error($"Error while loading Path = {path}", ex, GetType().Name, MethodBase.GetCurrentMethod().Name);
+                Nucleus.Logs.Error($"Error while loading Path = {path}", ex, GetType().Name, MethodBase.GetCurrentMethod()?.Name);
                 return false;
             }
         }
         else
         {
-            NucleusFW.Nucleus.Logs.Error("Path is empty", new CustomAttributeFormatException(), GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error("Path is empty", new CustomAttributeFormatException(), GetType().Name, MethodBase.GetCurrentMethod()?.Name);
         }
 
         return false;
     }
 
     /// <summary>
-    /// Spawn a single instance of the index of the PackedScene's list   (scene must ihnerits from Node2D)
+    /// Spawn a single instance of the index of the PackedScene's list   (scene must inherits from Node2D)
     /// </summary>
     /// <param name="destinationNodeDeferred">The node where to add the instance (usually THIS to use CallDeferred / NULL = do not use CallDeferred)</param>
     /// <param name="globalPosition">Where to display the scene spawned (NULL = do not use set a position)</param>
@@ -111,7 +112,7 @@ public partial class Spawn_Factory : Marker2D
         }
         else
         {
-            NucleusFW.Nucleus.Logs.Error($"TODO: ERROR - Class {scene.Instantiate().GetType()} is not defined in 'Add_Instance'", new NullReferenceException(), GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"TODO: ERROR - Class {scene.Instantiate().GetType()} is not defined in 'Add_Instance'", new NullReferenceException(), GetType().Name, MethodBase.GetCurrentMethod()?.Name);
             instance = null;
         }
 
@@ -119,7 +120,7 @@ public partial class Spawn_Factory : Marker2D
     }
 
     /// <summary>
-    /// (Use CallDeferred) Spawn a single instance of the index of the PackedScene's list with a delay   (scene must ihnerits from Node2D)
+    /// (Use CallDeferred) Spawn a single instance of the index of the PackedScene's list with a delay   (scene must inherits from Node2D)
     /// </summary>
     /// <param name="destinationNodeDeferred">The node where to add the instance (usually THIS to use CallDeferred / NULL = do not use CallDeferred)</param>
     /// <param name="globalPosition">Where to display the scene spawned (NULL = do not use set a position)</param>
@@ -133,16 +134,16 @@ public partial class Spawn_Factory : Marker2D
             return null;
 
         // Set the timing options and wait
-        float spawn_time = timing.GetTiming();
+        float spawnTime = timing.GetTiming();
         if(timing.IsTimed)
-            await ToSignal(GetTree().CreateTimer(spawn_time), "timeout");
+            await ToSignal(GetTree().CreateTimer(spawnTime), "timeout");
 
         // Create and return the instance
         return Add_Instance<T>(destinationNodeDeferred, globalPosition, indexSceneToDisplay, groupName);
     }
 
     /// <summary>
-    /// (Use CallDeferred) Spawn multiple instances from PackedScene's list with a delay   (scene must ihnerits from Node2D)
+    /// (Use CallDeferred) Spawn multiple instances from PackedScene's list with a delay   (scene must inherits from Node2D)
     /// </summary>
     /// <param name="destinationNodeDeferred">The node where to add the instance (usually THIS to use CallDeferred / NULL = do not use CallDeferred)</param>
     /// <param name="globalPosition">Where to display the scene spawned (NULL = do not use set a position)</param>
