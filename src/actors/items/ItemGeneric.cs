@@ -1,7 +1,7 @@
-using Godot;
-using Nucleus;
 using System;
 using System.Reflection;
+
+namespace BulletBallet.actors.items;
 
 /// <summary>
 /// Responsible for :
@@ -13,17 +13,13 @@ using System.Reflection;
 /// </summary>
 public partial class ItemGeneric : Area2D
 {
-    #region HEADER
-
-    public CItem ItemProperties { get; private set; }
+    public classes.Item ItemProperties { get; private set; }
 
     private Timer _timerTTL;
     private Sprite2D _spriteGlowCircle;
     private GpuParticles2D _particleWhenPicked;
 
     private AnimatedSprite2D instanceSprite;
-
-    #endregion
 
     //*-------------------------------------------------------------------------*//
 
@@ -41,11 +37,11 @@ public partial class ItemGeneric : Area2D
         Initialize_ItemGeneric();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     /// <summary>
     /// When a character (player/pnj) collides with an item, send information to ItemBrain
@@ -58,22 +54,22 @@ public partial class ItemGeneric : Area2D
         {
             switch (ItemProperties.SendTo)
             {
-                case StateManager.ItemsSendTo.CHARACTER:
+                case GameManager.ItemsSendTo.CHARACTER:
                     // Call a method from a specific character
                     if (body.IsInGroup("Player"))
                     {
-                        ((Player)body).Item_Action(ItemProperties, body.Name);
+                        ((characters.player.Player)body).Item_Action(ItemProperties, body.Name);
                         actionSend = true;
                     }
                     else if (body.IsInGroup("Pnj"))
                     {
-                        ((Pnj)body).Item_Action(ItemProperties, body.Name);
+                        ((characters.pnj.Pnj)body).Item_Action(ItemProperties, body.Name);
                         actionSend = true;
                     }
 
                     break;
-                case StateManager.ItemsSendTo.OTHER_CHARACTERS:
-                case StateManager.ItemsSendTo.ALL_CHARACTERS:
+                case GameManager.ItemsSendTo.OTHER_CHARACTERS:
+                case GameManager.ItemsSendTo.ALL_CHARACTERS:
                     // Call a method from all characters
                     GetTree().CallGroup("Player", "Item_Action", ItemProperties, body.Name);
                     GetTree().CallGroup("Pnj", "Item_Action", ItemProperties, body.Name);
@@ -95,11 +91,11 @@ public partial class ItemGeneric : Area2D
         Destroy_Item();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_ItemGeneric()
     { }
@@ -123,7 +119,7 @@ public partial class ItemGeneric : Area2D
     /// </summary>
     private void Destroy_Item()
     {
-        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.ItemGeneric_ItemBrain_Touched, Name);    // to delete the item from the main list
+        Nucleus.SignalManager.EmitSignal(SignalManager.SignalName.ItemGeneric_ItemBrain_Touched, Name);    // to delete the item from the main list
         CallDeferred("queue_free");
     }
 
@@ -134,7 +130,7 @@ public partial class ItemGeneric : Area2D
     {
         try
         {
-            PackedScene scene = ResourceLoader.Load(ItemProperties.SpritePath) as PackedScene;
+            PackedScene scene = ResourceLoader.Load<PackedScene>(ItemProperties.SpritePath);
             if (scene != null)
             {
                 instanceSprite = (AnimatedSprite2D)scene.Instantiate();
@@ -147,7 +143,7 @@ public partial class ItemGeneric : Area2D
         }
         catch (Exception ex)
         {
-            Nucleus_Utils.Error($"Error while loading Path = {ItemProperties.SpritePath}", ex, GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"Error while loading Path = {ItemProperties.SpritePath}", ex, GetType().Name, MethodBase.GetCurrentMethod().Name);
         }
     }
 
@@ -163,7 +159,7 @@ public partial class ItemGeneric : Area2D
     /// <summary>
     /// Initialize item properties + load sprite / start TTL timer   (called from ItemsBrain)
     /// </summary>
-    public void Initialize_ItemProperties(CItem pItemProperties)
+    public void Initialize_ItemProperties(classes.Item pItemProperties)
     {
         ItemProperties = pItemProperties;
         Name = "Item";  //ItemProperties.ActionName;
@@ -173,9 +169,9 @@ public partial class ItemGeneric : Area2D
         Start_TTLTimer();
     }
 
-#region ACTIONS
+    #region ACTIONS
 
-#endregion ACTIONS
+    #endregion ACTIONS
 
-#endregion
+    #endregion
 }

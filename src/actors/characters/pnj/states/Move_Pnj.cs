@@ -1,9 +1,9 @@
 using System;
 using System.Reflection;
-using Godot;
+using BulletBallet.utils.NucleusFW.StateMachine;
 using Godot.Collections;
-using Nucleus;
-using Nucleus.AI;
+
+namespace BulletBallet.actors.characters.pnj.states;
 
 /// <summary>
 /// Responsible for :
@@ -13,36 +13,32 @@ using Nucleus.AI;
 /// </summary>
 public partial class Move_Pnj : Node, IState
 {
-#region HEADER
-
     private Pnj _rootNode;
-
-#endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
         Initialize_Move();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region INTERFACE IMPLEMENTATION
+    #region INTERFACE IMPLEMENTATION
 
-    public void Enter_State<T>(T pRootNode, Dictionary<string, GodotObject> pParam = null)
+    public void Enter_State<T>(T rootNode, Dictionary<string, GodotObject> param = null)
     {
-        if (pRootNode == null || pRootNode.GetType() != typeof(Pnj))
+        if (rootNode == null || rootNode.GetType() != typeof(Pnj))
         {
-            Nucleus_Utils.Error($"State Machine root node is null or type not expected ({pRootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"State Machine root node is null or type not expected ({rootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
             return;
         }
         if (_rootNode == null) {
-            _rootNode = pRootNode as Pnj;
+            _rootNode = rootNode as Pnj;
 
             _rootNode.TimerScore.Connect("timeout", new Callable(this, nameof(onTimerScore_Timeout)));
         }
@@ -59,16 +55,16 @@ public partial class Move_Pnj : Node, IState
     public void Input_State(InputEvent @event) { }
     public string GetStateName() => Name;
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     /// <summary>
     /// When the character walk on a platform or on borders (two Area2D collides)
     /// </summary>
-    private void onAreaShapeEntered(int area_id, Area2D area, int area_shape, int local_shape)
+    private void onAreaShapeEntered(int areaId, Area2D area, int areaShape, int localShape)
     {
         if(area != null && area.Name.ToString().StartsWith("@Platform"))
         {
@@ -85,11 +81,11 @@ public partial class Move_Pnj : Node, IState
     /// </summary>
     private void onTimerScore_Timeout() => _rootNode.CharacterProperties.Update_Score(1);
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Move()
     { }
@@ -105,7 +101,7 @@ public partial class Move_Pnj : Node, IState
             _rootNode.CharacterProperties.Velocity = _rootNode.CharacterProperties.Steering.Steering_Seek(_rootNode.CharacterProperties, _rootNode.GlobalPosition);
 
             // Move the character
-            if (_rootNode.CharacterProperties.Velocity.Abs() >= Nucleus_Utils.VECTOR_1)
+            if (_rootNode.CharacterProperties.Velocity.Abs() >= Nucleus_Maths.VECTOR_1)
             {
                 if (_rootNode.CharacterAnimation.CurrentAnimation != "run")
                     _rootNode.CharacterAnimation.Play("run");
@@ -134,5 +130,5 @@ public partial class Move_Pnj : Node, IState
     {
     }
 
-#endregion
+    #endregion
 }

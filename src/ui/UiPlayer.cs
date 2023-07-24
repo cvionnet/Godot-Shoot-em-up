@@ -1,26 +1,20 @@
-using Godot;
-using Nucleus;
-using System;
+namespace BulletBallet.ui;
 
 /// <summary>
 /// Responsible for :
 /// - displaying score
 /// </summary>
-public partial class UI_Player : CanvasLayer
+public partial class UiPlayer : CanvasLayer
 {
-#region HEADER
-
     private Label _score;
     private Label _time;
     private Timer _timerTime;
 
     private int _timeLeft;
 
-#endregion
-
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -29,22 +23,22 @@ public partial class UI_Player : CanvasLayer
         _timerTime = GetNode<Timer>("TimerTime");
 
         _timerTime.Connect("timeout", new Callable(this, nameof(onTimerTime_Timeout)));
-        Nucleus_Utils.State_Manager.Connect("Player_UIPlayer_UpdateScore_EventHandler", new Callable(this, nameof(onPlayer_UpdateScore)));              // emited from Move_Player
+        Nucleus.SignalManager.Connect(SignalManager.SignalName.Player_UiPlayer_UpdatedScore, new Callable(this, nameof(onPlayer_UpdateScore)));              // emited from Move_Player
 
         Initialize_UI_Player();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     /// <summary>
     /// When the Game send a signal to update the score
     /// </summary>
-    /// <param name="pScore">The score to display</param>
-    private void onPlayer_UpdateScore(int pScore) => _score.Text = $"Score : {pScore}";
+    /// <param name="score">The score to display</param>
+    private void onPlayer_UpdateScore(int score) => _score.Text = $"Score : {score}";
 
     private void onTimerTime_Timeout()
     {
@@ -56,23 +50,23 @@ public partial class UI_Player : CanvasLayer
         else
         {
             _timerTime.Stop();
-            Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.UiPlayer_GameBrain_LevelTimeout);
+            Nucleus.SignalManager.EmitSignal(SignalManager.SignalName.UiPlayer_GameBrain_LevelTimeout);
         }
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_UI_Player()
     {
-        _timeLeft = Nucleus_Utils.State_Manager.LevelActive.RoundTime;
+        _timeLeft = Nucleus.GameManager.LevelActive.RoundTime;
         _time.Text = _timeLeft.ToString();
 
         _timerTime.Start();
     }
 
-#endregion
+    #endregion
 }

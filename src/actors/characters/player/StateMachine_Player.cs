@@ -1,17 +1,14 @@
-using Godot;
-using Nucleus;
 using System;
 using System.Reflection;
+using BulletBallet.utils.NucleusFW.StateMachine;
+
+namespace BulletBallet.actors.characters.player;
 
 public partial class StateMachine_Player : StateMachine_Core<Player>
 {
-    #region HEADER
-
     [Export] public NodePath InitialStateNode { get; set; }
 
     private bool _isReady = false;
-
-    #endregion
 
     //*-------------------------------------------------------------------------*//
 
@@ -37,17 +34,17 @@ public partial class StateMachine_Player : StateMachine_Core<Player>
         if(_isReady) base.Input_State(@event);
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     /// <summary>
     /// Wait for the owner to be ready (owner = Node at the top of the scene), to be sure to access safely to nodes
@@ -57,19 +54,19 @@ public partial class StateMachine_Player : StateMachine_Core<Player>
     /// <summary>
     /// Initialize the State Machine node reference in Utils (will be used by the States)
     /// </summary>
-    /// <param name="pRootNode"></param>
-    public void Init_StateMachine(Player pRootNode)
+    /// <param name="rootNode"></param>
+    public void Init_StateMachine(Player rootNode)
     {
         if(InitialStateNode != null)
         {
-            base.Initialize_StateMachine_Core(InitialStateNode, pRootNode);
+            base.Initialize_StateMachine_Core(InitialStateNode, rootNode);
             _isReady = true;
         }
         else
         {
-            Nucleus_Utils.Error($"State Machine node is null (owner : {pRootNode.Name}", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"State Machine node is null (owner : {rootNode.Name}", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
         }
     }
 
-#endregion
+    #endregion
 }

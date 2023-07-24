@@ -1,6 +1,6 @@
-using Godot;
-using Nucleus;
-using Nucleus.AI;
+using BulletBallet.utils.NucleusFW.AI;
+
+namespace BulletBallet.actors.characters.classes;
 
 /// <summary>
 /// Extends the Character class with properties about character's movements (max speed, acceleration ...)
@@ -64,7 +64,7 @@ public partial class Character
     }
     private float _inertia_Stop;    
     
-#region PLATEFORMER
+    #region PLATEFORMER
     public float MaxFall_Speed { get; private set; }        // to make the character fall quicker (add more mass)
 
     public float Gravity {
@@ -75,7 +75,7 @@ public partial class Character
         }
     }
     private float _gravity;
-#endregion
+    #endregion
 
     //*-------------------------------------------------------------------------*//
 
@@ -84,8 +84,8 @@ public partial class Character
     /// </summary>
     public void Reset_Movement()
     {
-        Direction = Nucleus_Utils.VECTOR_0;
-        Velocity = Nucleus_Utils.VECTOR_0;
+        Direction = Nucleus_Maths.VECTOR_0;
+        Velocity = Nucleus_Maths.VECTOR_0;
     }
 
     /// <summary>

@@ -1,8 +1,9 @@
-using Godot;
-using Godot.Collections;
-using Nucleus;
 using System;
 using System.Reflection;
+using BulletBallet.utils.NucleusFW.StateMachine;
+using Godot.Collections;
+
+namespace BulletBallet.actors.characters.player.states;
 
 /// <summary>
 /// Responsible for :
@@ -10,16 +11,12 @@ using System.Reflection;
 /// </summary>
 public partial class Dash_Player : Node, IState
 {
-#region HEADER
-
     private Player _rootNode;
     private Move_Player _moveNode;
 
-#endregion
-
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -28,26 +25,26 @@ public partial class Dash_Player : Node, IState
         Initialize_Dash();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region INTERFACE IMPLEMENTATION
+    #region INTERFACE IMPLEMENTATION
 
-    public void Enter_State<T>(T pRootNode, Dictionary<string, GodotObject> pParam = null)
+    public void Enter_State<T>(T rootNode, Dictionary<string, GodotObject> param = null)
     {
-        if (pRootNode == null || pRootNode.GetType() != typeof(Player))
+        if (rootNode == null || rootNode.GetType() != typeof(Player))
         {
-            Nucleus_Utils.Error($"State Machine root node is null or type not expected ({pRootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"State Machine root node is null or type not expected ({rootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
             return;
         }
         if (_rootNode == null)
         {
-            _rootNode = pRootNode as Player;
+            _rootNode = rootNode as Player;
             _rootNode.TimerDashDuration.Connect("timeout", new Callable(this, nameof(onTimerDash_Timeout)));
         }
 
-        _moveNode.Enter_State(pRootNode, pParam);
+        _moveNode.Enter_State(rootNode, param);
 
         Play_Dash();
     }
@@ -58,11 +55,11 @@ public partial class Dash_Player : Node, IState
     public void Input_State(InputEvent @event) => _moveNode.Input_State(@event);
     public string GetStateName() => Name;
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     // Reset values after a dash
     public void onTimerDash_Timeout()
@@ -72,11 +69,11 @@ public partial class Dash_Player : Node, IState
         _rootNode.CharacterProperties.IsDashing = false;
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Dash()
     { }
@@ -95,11 +92,11 @@ public partial class Dash_Player : Node, IState
         _rootNode.CharacterProperties.Velocity *= _rootNode.CharacterProperties.Dash_SpeedBoost;
 
         /*
-        if (Nucleus_Utils.StateMachine_Player.RootNode.IsOnFloor() && Input.IsActionPressed("button_X"))
-            _moveNode.MaxSpeed.x = _moveNode.MaxSpeed_Default.x + SpeedBoost;
-        else
-            _moveNode.MaxSpeed = _moveNode.MaxSpeed_Default;
-        */
+    if (Nucleus_Utils.StateMachine_Player.RootNode.IsOnFloor() && Input.IsActionPressed("button_X"))
+        _moveNode.MaxSpeed.x = _moveNode.MaxSpeed_Default.x + SpeedBoost;
+    else
+        _moveNode.MaxSpeed = _moveNode.MaxSpeed_Default;
+    */
     }
 
     #endregion

@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://b4cijw0uvxx0n"]
 
-[ext_resource path="res://src/scenes/GameBrain.cs" type="Script" id=1]
+[ext_resource type="Script" path="res://src/scenes/GameBrain.cs" id="1"]
 
 [node name="GameBrain" type="Node"]
-script = ExtResource( 1 )
+script = ExtResource("1")

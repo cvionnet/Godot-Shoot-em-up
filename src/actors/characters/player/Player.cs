@@ -1,5 +1,4 @@
-using Godot;
-using Nucleus;
+namespace BulletBallet.actors.characters.player;
 
 /// <summary>
 /// Responsible for :
@@ -9,12 +8,10 @@ using Nucleus;
 /// </summary>
 public partial class Player : CharacterBody2D
 {
-#region HEADER
-
     public Character CharacterProperties { get; private set; }
 
     public StateMachine_Player StateMachine { get; private set; }
-    public CameraShake Camera { get; private set; }
+    public camera_shake.CameraShake Camera { get; private set; }
     public Timer TimerDashDuration { get; private set; }
     public Timer TimerScore { get; private set; }
     public AnimationPlayer CharacterAnimation { get; private set; }
@@ -22,16 +19,14 @@ public partial class Player : CharacterBody2D
 
     private Timer _timerItemActionDuration;
 
-#endregion
-
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
         StateMachine = GetNode<StateMachine_Player>("StateMachine");
-        Camera = GetNode<CameraShake>("CameraShake");
+        Camera = GetNode<camera_shake.CameraShake>("CameraShake");
         CharacterAnimation = GetNode<AnimationPlayer>("CharacterAnimation");
         CharacterSprite = GetNode<Sprite2D>("CharacterSprite");
 
@@ -44,17 +39,17 @@ public partial class Player : CharacterBody2D
 
     public override void _Process(double delta) { }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Player()
     {
@@ -81,20 +76,20 @@ public partial class Player : CharacterBody2D
         TimerDashDuration.WaitTime = 0.3f;
     }
 
-#region ACTIONS
+    #region ACTIONS
 
     /// <summary>
     /// When an item has been touched (called by ItemGeneric)
     /// </summary>
-    /// <param name="pItemProperties">All properties of the item touched</param>
-    /// <param name="pItemTouchedBy">The name of the node that hits the item</param>
-    public void Item_Action(CItem pItemProperties, string pItemTouchedBy)
+    /// <param name="itemProperties">All properties of the item touched</param>
+    /// <param name="itemTouchedBy">The name of the node that hits the item</param>
+    public void Item_Action(items.classes.Item itemProperties, string itemTouchedBy)
     {
         // Call the generic method
-        CharacterProperties.ActionFrom_Item(pItemProperties, pItemTouchedBy, _timerItemActionDuration);
+        CharacterProperties.ActionFrom_Item(itemProperties, itemTouchedBy, _timerItemActionDuration);
     }
 
-#endregion ACTIONS
+    #endregion ACTIONS
 
-#endregion
+    #endregion
 }

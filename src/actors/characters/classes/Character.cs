@@ -1,18 +1,17 @@
-using Godot;
-using Nucleus;
+namespace BulletBallet.actors.characters.classes;
 
 /// <summary>
 /// Contains all generic properties shared between all characters (max speed, acceleration ...)
 /// </summary>
 public partial class Character
 {
-    public Character(bool isPlateformer, string pName)
+    public Character(bool isPlateformer, string name)
     {
         IsPlateformer = isPlateformer;
-        Name = pName;
+        Name = name;
     }
 
-#region INITIAL SETUP
+    #region INITIAL SETUP
 
     // To set default values according to the game type (plateformer or top-down)
     public bool IsPlateformer {
@@ -36,18 +35,18 @@ public partial class Character
             
             // Initialize characters controlled by AI
             if (!_isControlledByPlayer)
-                Velocity = Nucleus_Utils.VECTOR_0;
+                Velocity = Nucleus_Maths.VECTOR_0;
         }
     }
     private bool _isControlledByPlayer;
     
-    public bool DebugMode { get; set; } = Nucleus_Utils.DEBUG_MODE;    // to activate or no debug options on a character
+    public bool DebugMode { get; set; } = Nucleus.DEBUG_MODE;    // to activate or no debug options on a character
 
-#endregion
+    #endregion
 
-#region CHARACTER PROPERTIES
+    #region CHARACTER PROPERTIES
 
     public int Score { get; set; } = 0;
 
-#endregion
+    #endregion
 }

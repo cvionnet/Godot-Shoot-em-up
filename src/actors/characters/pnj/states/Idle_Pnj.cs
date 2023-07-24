@@ -1,8 +1,9 @@
-using Godot;
-using Godot.Collections;
-using Nucleus;
 using System;
 using System.Reflection;
+using BulletBallet.utils.NucleusFW.StateMachine;
+using Godot.Collections;
+
+namespace BulletBallet.actors.characters.pnj.states;
 
 /// <summary>
 /// Responsible for :
@@ -10,35 +11,31 @@ using System.Reflection;
 /// </summary>
 public partial class Idle_Pnj : Node, IState
 {
-#region HEADER
-
     private Pnj _rootNode;
-
-#endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
         Initialize_Idle();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region INTERFACE IMPLEMENTATION
+    #region INTERFACE IMPLEMENTATION
 
-    public void Enter_State<T>(T pRootNode, Dictionary<string, GodotObject> pParam = null)
+    public void Enter_State<T>(T rootNode, Dictionary<string, GodotObject> param = null)
     {
-        if (pRootNode == null || pRootNode.GetType() != typeof(Pnj))
+        if (rootNode == null || rootNode.GetType() != typeof(Pnj))
         {
-            Nucleus_Utils.Error($"State Machine root node is null or type not expected ({pRootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"State Machine root node is null or type not expected ({rootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
             return;
         }
-        if (_rootNode == null) _rootNode = pRootNode as Pnj;
+        if (_rootNode == null) _rootNode = rootNode as Pnj;
         if (_rootNode.CharacterProperties.DebugMode)
         {
             _rootNode.DebugLabel.Text = _rootNode.StateMachine.ActiveState.GetStateName();
@@ -57,17 +54,17 @@ public partial class Idle_Pnj : Node, IState
     public void Input_State(InputEvent @event) { }
     public string GetStateName() => Name;
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Idle()
     { }

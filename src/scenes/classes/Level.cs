@@ -1,4 +1,6 @@
-public class CLevel
+namespace BulletBallet.scenes.classes;
+
+public class Level
 {
     public int LevelId { get; set; }
     public int RoundTime { get; set; }                  // how much time a round is

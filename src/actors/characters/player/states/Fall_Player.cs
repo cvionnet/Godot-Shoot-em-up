@@ -1,8 +1,9 @@
-using Godot;
-using Godot.Collections;
-using Nucleus;
 using System;
 using System.Reflection;
+using BulletBallet.utils.NucleusFW.StateMachine;
+using Godot.Collections;
+
+namespace BulletBallet.actors.characters.player.states;
 
 /// <summary>
 /// Responsible for :
@@ -12,36 +13,32 @@ using System.Reflection;
 /// </summary>
 public partial class Fall_Player : Node, IState
 {
-#region HEADER
-
     private Player _rootNode;
-
-#endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
         Initialize_Fall();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region INTERFACE IMPLEMENTATION
+    #region INTERFACE IMPLEMENTATION
 
-    public void Enter_State<T>(T pRootNode, Dictionary<string, GodotObject> pParam = null)
+    public void Enter_State<T>(T rootNode, Dictionary<string, GodotObject> param = null)
     {
-        if (pRootNode == null || pRootNode.GetType() != typeof(Player))
+        if (rootNode == null || rootNode.GetType() != typeof(Player))
         {
-            Nucleus_Utils.Error($"State Machine root node is null or type not expected ({pRootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
+            Nucleus.Logs.Error($"State Machine root node is null or type not expected ({rootNode.GetType()})", new NullReferenceException(), this.GetType().Name, MethodBase.GetCurrentMethod().Name);
             return;
         }
         if (_rootNode == null) {
-            _rootNode = pRootNode as Player;
+            _rootNode = rootNode as Player;
         }
 
         Make_CharacterFall();
@@ -53,11 +50,11 @@ public partial class Fall_Player : Node, IState
     public void Input_State(InputEvent @event) { }
     public string GetStateName() => Name;
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     /// <summary>
     /// Make the character respawn
@@ -68,11 +65,11 @@ public partial class Fall_Player : Node, IState
         _rootNode.StateMachine.TransitionTo("Spawn");
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Fall()
     { }
@@ -82,7 +79,7 @@ public partial class Fall_Player : Node, IState
         _rootNode.CharacterProperties.Update_Score(-5);
         _rootNode.CharacterProperties.Reset_Movement();
         _rootNode.Visible = false;
-        _rootNode.Camera.Zoom_Camera(Nucleus_Utils.State_Manager.ZoomLevel_ZOOMOUT, 0.5f);
+        _rootNode.Camera.Zoom_Camera(Nucleus.GameManager.ZoomLevelZoomOut, 0.5f);
 
 //        _rootNode.CallDeferred("queue_free");
     }

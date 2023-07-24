@@ -1,5 +1,7 @@
-using Godot;
-using Nucleus;
+using BulletBallet.scenes.classes;
+using BulletBallet.utils.NucleusFW.SceneManager;
+
+namespace BulletBallet.scenes;
 
 /// <summary>
 /// Responsible for :
@@ -10,13 +12,7 @@ using Nucleus;
 /// </summary>
 public partial class GameBrain : Node
 {
-#region HEADER
-
-#endregion
-
-//*-------------------------------------------------------------------------*//
-
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -29,31 +25,32 @@ public partial class GameBrain : Node
             GetTree().ReloadCurrentScene();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     private void onLevel_Timeout()
     {
         Display_EndGame();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_GameBrain()
     {
-  		Nucleus_Utils.Initialize_Utils(GetViewport());
-		Nucleus_Utils.State_Manager = GetNode<StateManager>("/root/StateManager");
-
+        Nucleus.Initialize_Nucleus(GetViewport());
+        Nucleus.GameManager = GetNode<GameManager>("/root/GameManager");
+        Nucleus.SignalManager = GetNode<SignalManager>("/root/SignalManager");
+        
         // Connect SceneManager after Nucleus_Utils.State_Manager initialization
         GetParent().GetNode<SceneManager>("SceneManager").Initialize_SceneManager();
-        Nucleus_Utils.State_Manager.Connect(StateManager.SignalName.UiPlayer_GameBrain_LevelTimeout, new Callable(this, nameof(onLevel_Timeout)));   // emited from Player
+        Nucleus.SignalManager.Connect(SignalManager.SignalName.UiPlayer_GameBrain_LevelTimeout, new Callable(this, nameof(onLevel_Timeout)));   // emited from Player
 
         Initialize_LevelsList();
     }
@@ -63,20 +60,20 @@ public partial class GameBrain : Node
     /// </summary>
     private void Initialize_LevelsList()
     {
-        Nucleus_Utils.State_Manager.LevelList.Add(new CLevel() { 
+        Nucleus.GameManager.LevelList.Add(new Level() { 
             LevelId = 1, 
             RoundTime = 60, 
             PnjNumberToDisplay = 5
         });
     }
 
-	/// <summary>
-	/// Gameover screen
-	/// </summary>
-	private void Display_EndGame()
-	{
-        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.Generic_TransitionScene, "screens/Gameover");    // (to SceneManager)
-	}
+    /// <summary>
+    /// Gameover screen
+    /// </summary>
+    private void Display_EndGame()
+    {
+        Nucleus.SignalManager.EmitSignal(SignalManager.SignalName.Generic_TransitionScene, "screens/Gameover");    // (to SceneManager)
+    }
 
-#endregion
+    #endregion
 }

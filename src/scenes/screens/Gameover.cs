@@ -1,18 +1,12 @@
-using Godot;
-using Nucleus;
-using System;
+namespace BulletBallet.scenes.screens;
 
 public partial class Gameover : Node
 {
-#region HEADER
-
     private Button _buttonStart;
-
-#endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region GODOT METHODS
+    #region GODOT METHODS
 
     public override void _Ready()
     {
@@ -22,28 +16,28 @@ public partial class Gameover : Node
         Initialize_Gameover();
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region SIGNAL CALLBACKS
+    #region SIGNAL CALLBACKS
 
     /// <summary>
     /// Button "Play again"
     /// </summary>
     private void _onButtonStart_Pressed()
     {
-        Nucleus_Utils.State_Manager.EmitSignal(StateManager.SignalName.Generic_TransitionScene, "screens/Menu");    // (to SceneManager) Restart a new game
+        Nucleus.SignalManager.EmitSignal(SignalManager.SignalName.Generic_TransitionScene, "screens/Menu");    // (to SceneManager) Restart a new game
     }
 
-#endregion
+    #endregion
 
 //*-------------------------------------------------------------------------*//
 
-#region USER METHODS
+    #region USER METHODS
 
     private void Initialize_Gameover()
     { }
 
-#endregion
+    #endregion
 }
