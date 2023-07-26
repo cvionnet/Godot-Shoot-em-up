@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using BulletBallet.utils.NucleusFW.StateMachine;
 
-namespace BulletBallet.actors.characters.player;
+namespace BulletBallet.actors.characters.player.states;
 
 public partial class StateMachine_Player : StateMachine_Core<Player>
 {
@@ -36,20 +36,20 @@ public partial class StateMachine_Player : StateMachine_Core<Player>
 
     #endregion
 
-//*-------------------------------------------------------------------------*//
+    //*-------------------------------------------------------------------------*//
 
     #region SIGNAL CALLBACKS
 
     #endregion
 
-//*-------------------------------------------------------------------------*//
+    //*-------------------------------------------------------------------------*//
 
     #region USER METHODS
 
     /// <summary>
     /// Wait for the owner to be ready (owner = Node at the top of the scene), to be sure to access safely to nodes
     /// </summary>
-    async private void _SceneReady() => await ToSignal(Owner, "ready");
+    private async void _SceneReady() => await ToSignal(Owner, "ready");
 
     /// <summary>
     /// Initialize the State Machine node reference in Utils (will be used by the States)

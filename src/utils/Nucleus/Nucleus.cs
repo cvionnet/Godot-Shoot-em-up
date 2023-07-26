@@ -9,7 +9,8 @@ public static class Nucleus
 
     public static float ScreenWidth { get; private set; }
     public static float ScreenHeight { get; private set; }
-
+    public static GameManager.Genre Genre { get; set; }
+    
     public static GameManager GameManager { get; set; } // = new GameManager();
     public static SignalManager SignalManager { get; set; }
     public static Nucleus_Logs Logs { get; set; } = new Nucleus_Logs();
@@ -21,6 +22,8 @@ public static class Nucleus
     public static void Initialize_Nucleus(Viewport game)
     {
         Nucleus_Maths.Rnd.Randomize();
+
+        Genre = GameManager.Genre.TOPDOWN;
 
         ScreenWidth = DisplayServer.WindowGetSize().X;
         ScreenHeight = DisplayServer.WindowGetSize().Y;

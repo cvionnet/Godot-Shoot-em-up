@@ -14,17 +14,17 @@ public static class Nucleus_Steering
     /// <summary>
     /// Calculate a velocity to move a character towards a destination (Follow)
     /// </summary>
-    /// <param name="characterProperties">a Character object with all properties</param>
+    /// <param name="entity">a Character object with all properties</param>
     /// <param name="position">the actual global position of the character</param>
     /// <param name="stopRadius">the circle radius around the target where the character stops</param>
     /// <returns>A vector2 to represent the destination velocity or a Vector2(0,0) if character is close to the target</returns>
-    public static Vector2 Steering_Seek(Character characterProperties, Vector2 position, float stopRadius = STEERING_CLOSE_DISTANCE)
+    public static Vector2 Steering_Seek<T>(T entity, Vector2 position, float stopRadius = STEERING_CLOSE_DISTANCE) where T : Entity
     {
 //            return Steering_Seek(pCharacterProperties.Velocity, pPosition, pCharacterProperties.Steering.TargetGlobalPosition, pCharacterProperties.Steering.Speed,
 //                            pCharacterProperties.Steering.Slow_Radius, pCharacterProperties.Steering.Mass, pStopRadius);
 
-        return Steering_Seek(characterProperties.Velocity, position, characterProperties.Steering.TargetGlobalPosition, characterProperties.MaxSpeed.X,
-                        characterProperties.Steering.Slow_Radius, characterProperties.Steering.Mass, stopRadius);
+        return Steering_Seek(entity.Movement.Velocity, position, entity.Movement.Steering.TargetGlobalPosition, entity.Movement.MaxSpeed.X,
+                        entity.Movement.Steering.Slow_Radius, entity.Movement.Steering.Mass, stopRadius);
     }
 
     /// <summary>

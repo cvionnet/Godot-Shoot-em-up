@@ -10,7 +10,7 @@ namespace BulletBallet.actors.characters.pnj;
 /// </summary>
 public partial class Pnj : CharacterBody2D
 {
-    public Character CharacterProperties { get; private set; }
+    public Entity Character { get; private set; }
 
     public states.StateMachine_Pnj StateMachine { get; private set; }
     public Label DebugLabel { get; private set; }
@@ -42,7 +42,7 @@ public partial class Pnj : CharacterBody2D
         _timerItemActionDuration = GetNode<Timer>("CharacterTimers/TimerItemActionDuration");
         _timerChangeDestination = GetNode<Timer>("CharacterTimers/TimerNewDestination");
 
-        _timerItemActionDuration.Connect("timeout", new Callable(this, nameof(onItemActionDurationTimer_Timeout)));
+        //_timerItemActionDuration.Connect("timeout", new Callable(this, nameof(onItemActionDurationTimer_Timeout)));
         _timerChangeDestination.Connect("timeout", new Callable(this, nameof(onChangeDestinationTimer_Timeout)));
 
         Initialize_Pnj();
@@ -57,7 +57,7 @@ public partial class Pnj : CharacterBody2D
     /// <summary>
     /// When action time of an item finish
     /// </summary>
-    private void onItemActionDurationTimer_Timeout() => CharacterProperties.ActionEnd_Item();
+    // private void onItemActionDurationTimer_Timeout() => CharacterProperties.ActionEnd_Item();
 
     /// <summary>
     /// Generate a new destination for the character
@@ -104,14 +104,12 @@ public partial class Pnj : CharacterBody2D
     /// </summary>
     private void Initialize_Properties()
     {
-        CharacterProperties = new Character(isPlateformer: false, Name);
+        Character = new Entity(Name, isControlledByPlayer: false);
 
-        CharacterProperties.IsControlledByPlayer = false;
-
-        CharacterProperties.Steering.LeaderToFollow = this;     // Steering AI - Set the player node as leader
-        CharacterProperties.MaxSpeed = new Vector2(Nucleus_Maths.Rnd.RandfRange(30.0f, 50.0f), Nucleus_Maths.Rnd.RandfRange(30.0f, 50.0f));
-        //CharacterProperties.Steering.TargetGlobalPosition = GlobalPosition;
-        //CharacterProperties.Steering.Speed = CharacterProperties.MaxSpeed.x;
+        Character.Movement.Steering.LeaderToFollow = this;     // Steering AI - Set the player node as leader
+        Character.Movement.MaxSpeed = new Vector2(Nucleus_Maths.Rnd.RandfRange(30.0f, 50.0f), Nucleus_Maths.Rnd.RandfRange(30.0f, 50.0f));
+        //Character.Movement.Steering.TargetGlobalPosition = GlobalPosition;
+        //Character.Movement.Steering.Speed = Character.Movement.MaxSpeed.x;
     }
 
     /// <summary>
@@ -120,11 +118,11 @@ public partial class Pnj : CharacterBody2D
     private void Set_NewDestination()
     {
         // Move the character to another place around him
-        CharacterProperties.Steering.Set_TargetGlobalPosition(GlobalPosition, 10.0f, 
+        Character.Movement.Steering.Set_TargetGlobalPosition(GlobalPosition, 10.0f, 
             Nucleus.ScreenWidth-10.0f, 10.0f, Nucleus.ScreenHeight-10.0f, _radiusMovement);
         
-        if (CharacterProperties.DebugMode) 
-            DebugLabel2.Text = Mathf.Floor(CharacterProperties.Steering.TargetGlobalPosition.X) + "/" + Mathf.Floor(CharacterProperties.Steering.TargetGlobalPosition.Y);
+        if (Character.DebugMode) 
+            DebugLabel2.Text = Mathf.Floor(Character.Movement.Steering.TargetGlobalPosition.X) + "/" + Mathf.Floor(Character.Movement.Steering.TargetGlobalPosition.Y);
 
         StateMachine.TransitionTo("Move");
     }
@@ -148,7 +146,7 @@ public partial class Pnj : CharacterBody2D
     public void Item_Action(items.classes.Item itemProperties, string itemTouchedBy)
     {
         // Call the generic method
-        CharacterProperties.ActionFrom_Item(itemProperties, itemTouchedBy, _timerItemActionDuration);
+        // CharacterProperties.ActionFrom_Item(itemProperties, itemTouchedBy, _timerItemActionDuration);
     }
 
     #endregion ACTIONS

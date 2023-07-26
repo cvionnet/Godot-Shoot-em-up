@@ -38,7 +38,7 @@ public partial class Fall_Pnj : Node, IState
         if (_rootNode == null) {
             _rootNode = rootNode as Pnj;
         }
-        if (_rootNode.CharacterProperties.DebugMode) _rootNode.DebugLabel.Text = _rootNode.StateMachine.ActiveState.GetStateName();
+        if (_rootNode.Character.DebugMode) _rootNode.DebugLabel.Text = _rootNode.StateMachine.ActiveState.GetStateName();
 
         Make_CharacterFall();
     }
@@ -75,8 +75,8 @@ public partial class Fall_Pnj : Node, IState
 
     private void Make_CharacterFall()
     {
-        _rootNode.CharacterProperties.Update_Score(-5);
-        _rootNode.CharacterProperties.Reset_Movement();
+        //_rootNode.CharacterProperties.Update_Score(-5);
+        //_rootNode.CharacterProperties.Reset_Movement();
         _rootNode.Visible = false;
         _rootNode.Position = Nucleus_Maths.VECTOR_0;
 

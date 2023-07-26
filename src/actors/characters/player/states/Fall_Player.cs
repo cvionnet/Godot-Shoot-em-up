@@ -76,8 +76,8 @@ public partial class Fall_Player : Node, IState
 
     private void Make_CharacterFall()
     {
-        _rootNode.CharacterProperties.Update_Score(-5);
-        _rootNode.CharacterProperties.Reset_Movement();
+        _rootNode.Update_Score(-5);
+        //_rootNode.CharacterProperties.Reset_Movement();
         _rootNode.Visible = false;
         _rootNode.Camera.Zoom_Camera(Nucleus.GameManager.ZoomLevelZoomOut, 0.5f);
 

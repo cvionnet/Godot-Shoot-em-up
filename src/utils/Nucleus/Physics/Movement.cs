@@ -44,16 +44,16 @@ public static class Nucleus_Movement
     /// <summary>
     /// Calculate the velocity of a character
     /// </summary>
-    /// <param name="characterProperties">a Character object with all properties</param>
+    /// <param name="entity">a Character object with all properties</param>
     /// <param name="delta">delta time</param>
     /// <returns>A vector2 to represent the new velocity</returns>
-    public static Vector2 CalculateVelocity(Character characterProperties, double delta)
+    public static Vector2 CalculateVelocity<T>(T entity, double delta) where T : Entity
     {
         // Formula in CalculateVelocity() use the value of MaxFall_Speed to limit y axis upper speed (with Mathf.Clamp). If topdown game, set this value to MaxSpeed.y
-        float maxspeed = characterProperties.IsPlateformer ? characterProperties.MaxFall_Speed : characterProperties.MaxSpeed.Y;
+        float maxspeed = (Nucleus.Genre == GameManager.Genre.PLATEFORMER) ? entity.Movement.MaxFallSpeed : entity.Movement.MaxSpeed.Y;
 
-        return CalculateVelocity(characterProperties.Velocity, characterProperties.MaxSpeed, characterProperties.Acceleration, characterProperties.Deceleration
-                                , characterProperties.Direction, delta, maxspeed);
+        return CalculateVelocity(entity.Movement.Velocity, entity.Movement.MaxSpeed, entity.Movement.Acceleration, entity.Movement.Deceleration
+                                , entity.Movement.Direction, delta, maxspeed);
     }
 
     /// <summary>

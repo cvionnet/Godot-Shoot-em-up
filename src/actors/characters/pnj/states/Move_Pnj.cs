@@ -42,9 +42,9 @@ public partial class Move_Pnj : Node, IState
 
             _rootNode.TimerScore.Connect("timeout", new Callable(this, nameof(onTimerScore_Timeout)));
         }
-        if (_rootNode.CharacterProperties.DebugMode) _rootNode.DebugLabel.Text = _rootNode.StateMachine.ActiveState.GetStateName();
+        if (_rootNode.Character.DebugMode) _rootNode.DebugLabel.Text = _rootNode.StateMachine.ActiveState.GetStateName();
 
-        _rootNode.CharacterProperties.IsMoving = true;
+        _rootNode.Character.Movement.IsMoving = true;
     }
 
     public void Exit_State() { }
@@ -79,7 +79,10 @@ public partial class Move_Pnj : Node, IState
     /// <summary>
     /// Update the score
     /// </summary>
-    private void onTimerScore_Timeout() => _rootNode.CharacterProperties.Update_Score(1);
+    private void onTimerScore_Timeout()
+    {
+        //_rootNode.CharacterProperties.Update_Score(1);
+    }
 
     #endregion
 
@@ -96,28 +99,28 @@ public partial class Move_Pnj : Node, IState
     private void Move_Character()
     {
         // Perform calcul only if the node have to move
-        if (_rootNode.CharacterProperties.Steering.TargetGlobalPosition != _rootNode.GlobalPosition)
+        if (_rootNode.Character.Movement.Steering.TargetGlobalPosition != _rootNode.GlobalPosition)
         {
-            _rootNode.CharacterProperties.Velocity = _rootNode.CharacterProperties.Steering.Steering_Seek(_rootNode.CharacterProperties, _rootNode.GlobalPosition);
+            _rootNode.Character.Movement.Velocity = _rootNode.Character.Movement.Steering.Steering_Seek(_rootNode.Character, _rootNode.GlobalPosition);
 
             // Move the character
-            if (_rootNode.CharacterProperties.Velocity.Abs() >= Nucleus_Maths.VECTOR_1)
+            if (_rootNode.Character.Movement.Velocity.Abs() >= Nucleus_Maths.VECTOR_1)
             {
                 if (_rootNode.CharacterAnimation.CurrentAnimation != "run")
                     _rootNode.CharacterAnimation.Play("run");
 
                 //_rootNode.CharacterProperties.Velocity = _rootNode.MoveAndSlide(_rootNode.CharacterProperties.Velocity);
-                _rootNode.Velocity = _rootNode.CharacterProperties.Velocity;
+                _rootNode.Velocity = _rootNode.Character.Movement.Velocity;
                 _rootNode.MoveAndSlide();
 
                 // Flip sprite on left or right
-                _rootNode.CharacterSprite.FlipH = _rootNode.CharacterProperties.IsOrientationHorizontalInverted;
+                _rootNode.CharacterSprite.FlipH = _rootNode.Character.Movement.IsOrientationHorizontalInverted;
 
                 //_animatedSprite.Rotation = _velocity.Angle();   // point the character direction towards the destination
             }
             else
             {
-                _rootNode.CharacterProperties.IsMoving = false;
+                _rootNode.Character.Movement.IsMoving = false;
                 _rootNode.StateMachine.TransitionTo("Idle");
             }
         }
