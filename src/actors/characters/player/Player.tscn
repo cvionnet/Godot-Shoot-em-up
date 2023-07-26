@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://dtrnqs0snqh56"]
 
 [ext_resource type="PackedScene" uid="uid://dudsy53uxc3ir" path="res://src/actors/camera_shake/CameraShake.tscn" id="2"]
-[ext_resource type="Script" path="res://src/actors/characters/player/StateMachine_Player.cs" id="3"]
+[ext_resource type="Script" path="res://src/actors/characters/player/states/StateMachine_Player.cs" id="3"]
 [ext_resource type="Texture2D" uid="uid://bsnmnaey1kxp1" path="res://assets/actors/characters/player.png" id="4"]
 [ext_resource type="Script" path="res://src/actors/characters/player/states/Spawn_Player.cs" id="5"]
 [ext_resource type="Script" path="res://src/actors/characters/player/Player.cs" id="6"]
