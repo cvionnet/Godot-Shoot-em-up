@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7r8irf0cja1t"
-path="res://.godot/imported/circle_fade.jpg-ea7c4587b56cfd125043f303a68cd03c.ctex"
+uid="uid://cr81pk1kgthlc"
+path="res://.godot/imported/boss2.png-12622114ec308d1305537d2df0e6340b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/actors/circle_fade.jpg"
-dest_files=["res://.godot/imported/circle_fade.jpg-ea7c4587b56cfd125043f303a68cd03c.ctex"]
+source_file="res://assets/actors/characters/boss/boss2.png"
+dest_files=["res://.godot/imported/boss2.png-12622114ec308d1305537d2df0e6340b.ctex"]
 
 [params]
 

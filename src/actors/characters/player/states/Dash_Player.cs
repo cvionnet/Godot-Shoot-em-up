@@ -64,9 +64,9 @@ public partial class Dash_Player : Node, IState
     // Reset values after a dash
     public void onTimerDash_Timeout()
     {
-        _rootNode.CharacterProperties.MaxSpeed *= 1/_rootNode.CharacterProperties.Dash_SpeedBoost;
-        _rootNode.CharacterProperties.Velocity *= 1/_rootNode.CharacterProperties.Dash_SpeedBoost;
-        _rootNode.CharacterProperties.IsDashing = false;
+        _rootNode.Character.Movement.MaxSpeed *= 1/_rootNode.Character.Movement.Dash_SpeedBoost;
+        _rootNode.Character.Movement.Velocity *= 1/_rootNode.Character.Movement.Dash_SpeedBoost;
+        _rootNode.Character.Movement.IsDashing = false;
     }
 
     #endregion
@@ -83,13 +83,13 @@ public partial class Dash_Player : Node, IState
     /// </summary>
     private void Play_Dash()
     {
-        _rootNode.CharacterProperties.IsDashing = true;
+        _rootNode.Character.Movement.IsDashing = true;
         _rootNode.TimerDashDuration.Start();
 
         //TODO:   play animation
 
-        _rootNode.CharacterProperties.MaxSpeed *= _rootNode.CharacterProperties.Dash_SpeedBoost;
-        _rootNode.CharacterProperties.Velocity *= _rootNode.CharacterProperties.Dash_SpeedBoost;
+        _rootNode.Character.Movement.MaxSpeed *= _rootNode.Character.Movement.Dash_SpeedBoost;
+        _rootNode.Character.Movement.Velocity *= _rootNode.Character.Movement.Dash_SpeedBoost;
 
         /*
     if (Nucleus_Utils.StateMachine_Player.RootNode.IsOnFloor() && Input.IsActionPressed("button_X"))

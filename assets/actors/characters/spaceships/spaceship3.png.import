@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7r8irf0cja1t"
-path="res://.godot/imported/circle_fade.jpg-ea7c4587b56cfd125043f303a68cd03c.ctex"
+uid="uid://b8xld8w5wyiq"
+path="res://.godot/imported/spaceship3.png-e86909508ac1a7c2b21aee8acad02549.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/actors/circle_fade.jpg"
-dest_files=["res://.godot/imported/circle_fade.jpg-ea7c4587b56cfd125043f303a68cd03c.ctex"]
+source_file="res://assets/actors/characters/spaceships/spaceship3.png"
+dest_files=["res://.godot/imported/spaceship3.png-e86909508ac1a7c2b21aee8acad02549.ctex"]
 
 [params]
 

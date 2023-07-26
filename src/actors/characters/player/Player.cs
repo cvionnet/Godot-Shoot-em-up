@@ -1,3 +1,5 @@
+using BulletBallet.actors.characters.player.states;
+
 namespace BulletBallet.actors.characters.player;
 
 /// <summary>
@@ -8,7 +10,7 @@ namespace BulletBallet.actors.characters.player;
 /// </summary>
 public partial class Player : CharacterBody2D
 {
-    public Character CharacterProperties { get; private set; }
+    public Entity Character { get; private set; }
 
     public StateMachine_Player StateMachine { get; private set; }
     public camera_shake.CameraShake Camera { get; private set; }
@@ -19,7 +21,9 @@ public partial class Player : CharacterBody2D
 
     private Timer _timerItemActionDuration;
 
-//*-------------------------------------------------------------------------*//
+    public int Score { get; set; } = 0;
+    
+    //*-------------------------------------------------------------------------*//
 
     #region GODOT METHODS
 
@@ -41,13 +45,13 @@ public partial class Player : CharacterBody2D
 
     #endregion
 
-//*-------------------------------------------------------------------------*//
+    //*-------------------------------------------------------------------------*//
 
     #region SIGNAL CALLBACKS
 
     #endregion
 
-//*-------------------------------------------------------------------------*//
+    //*-------------------------------------------------------------------------*//
 
     #region USER METHODS
 
@@ -64,18 +68,27 @@ public partial class Player : CharacterBody2D
     /// </summary>
     private void Initialize_Properties()
     {
-        CharacterProperties = new Character(isPlateformer: false, Name);
-
-        CharacterProperties.IsControlledByPlayer = true;
-        CharacterProperties.Inertia_Start = 800.0f;     //400.0f for ice effect
-        CharacterProperties.Inertia_Stop = 800.0f;
-        CharacterProperties.MaxSpeed_Default = new Vector2(300.0f, 300.0f);
-
-        // Dash
-        CharacterProperties.Dash_SpeedBoost = 1.5f;
+        Character = new Entity(Name, isControlledByPlayer: true);
         TimerDashDuration.WaitTime = 0.3f;
     }
 
+    /// <summary>
+    /// Update the score and send a signal to update the UI
+    /// </summary>
+    /// <param name="point">Can be positif or negative</param>
+    public void Update_Score(int point)
+    {
+        // To avoid having a negative score
+        if (point < 0 && (Score + point < 0))
+        {
+            Score = 0;
+            return;
+        }
+
+        Score += point;
+        Nucleus.SignalManager.EmitSignal(SignalManager.SignalName.Player_UiPlayer_UpdatedScore, Score);
+    }    
+    
     #region ACTIONS
 
     /// <summary>
@@ -86,7 +99,7 @@ public partial class Player : CharacterBody2D
     public void Item_Action(items.classes.Item itemProperties, string itemTouchedBy)
     {
         // Call the generic method
-        CharacterProperties.ActionFrom_Item(itemProperties, itemTouchedBy, _timerItemActionDuration);
+        // CharacterProperties.ActionFrom_Item(itemProperties, itemTouchedBy, _timerItemActionDuration);
     }
 
     #endregion ACTIONS

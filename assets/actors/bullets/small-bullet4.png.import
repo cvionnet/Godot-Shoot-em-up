@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7r8irf0cja1t"
-path="res://.godot/imported/circle_fade.jpg-ea7c4587b56cfd125043f303a68cd03c.ctex"
+uid="uid://cq310i40yfw0e"
+path="res://.godot/imported/small-bullet4.png-0281fd8b28452bd37db260ee34e8164d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/actors/circle_fade.jpg"
-dest_files=["res://.godot/imported/circle_fade.jpg-ea7c4587b56cfd125043f303a68cd03c.ctex"]
+source_file="res://assets/actors/bullets/small-bullet4.png"
+dest_files=["res://.godot/imported/small-bullet4.png-0281fd8b28452bd37db260ee34e8164d.ctex"]
 
 [params]
 

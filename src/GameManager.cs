@@ -14,6 +14,7 @@ public partial class GameManager : Node
     // GAME
     public List<Level> LevelList { get; set; } = new List<Level>();
     public Level LevelActive { get; set; }
+    public enum Genre { PLATEFORMER, TOPDOWN }
     
     // PLAYER
     public float ZoomLevelGame { get; } = 0.5f;

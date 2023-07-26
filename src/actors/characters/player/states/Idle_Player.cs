@@ -52,7 +52,7 @@ public partial class Idle_Player : Node, IState
     {
         _moveNode.Physics_Update(delta);
 
-        if(!_rootNode.CharacterProperties.IsMoving)
+        if(!_rootNode.Character.Movement.IsMoving)
             Play_Idle();
 
         /*

@@ -65,7 +65,7 @@ public partial class Move_Player : Node, IState
     {
         Movement_isPlayerMoving();
 
-        if(_rootNode.CharacterProperties.IsMoving)
+        if(_rootNode.Character.Movement.IsMoving)
         {
             if (_rootNode.CharacterAnimation.CurrentAnimation != "run")
                 _rootNode.CharacterAnimation.Play("run");
@@ -98,7 +98,7 @@ public partial class Move_Player : Node, IState
     /// <summary>
     /// Update the score
     /// </summary>
-    private void onTimerScore_Timeout() => _rootNode.CharacterProperties.Update_Score(1);
+    private void onTimerScore_Timeout() => _rootNode.Update_Score(1);
 
     #endregion
 
@@ -114,16 +114,16 @@ public partial class Move_Player : Node, IState
     /// </summary>
     private void Movement_isPlayerMoving()
     {
-        if (_rootNode.CharacterProperties.IsPlateformer)
-            _rootNode.CharacterProperties.Direction = Nucleus_Movement.GetMovingDirection("L_left", "L_right", false);
+        if (Nucleus.Genre == GameManager.Genre.PLATEFORMER)
+            _rootNode.Character.Movement.Direction = Nucleus_Movement.GetMovingDirection("L_left", "L_right", false);
         else
-            _rootNode.CharacterProperties.Direction = Nucleus_Movement.GetMovingDirection("L_left", "L_right", false, "L_up", "L_down");
+            _rootNode.Character.Movement.Direction = Nucleus_Movement.GetMovingDirection("L_left", "L_right", false, "L_up", "L_down");
 
         // Check if the player is moving : he has a direction (joypad) or a velocity (acceleration/decceleration)
-        _rootNode.CharacterProperties.IsMoving = _rootNode.CharacterProperties.Velocity.X != 0.0f || _rootNode.CharacterProperties.Velocity.Y != 0.0f || _rootNode.CharacterProperties.Direction.X != 0.0f || _rootNode.CharacterProperties.Direction.Y != 0.0f;
+        _rootNode.Character.Movement.IsMoving = _rootNode.Character.Movement.Velocity.X != 0.0f || _rootNode.Character.Movement.Velocity.Y != 0.0f || _rootNode.Character.Movement.Direction.X != 0.0f || _rootNode.Character.Movement.Direction.Y != 0.0f;
 
         // Flip sprite on left or right
-        _rootNode.CharacterSprite.FlipH = _rootNode.CharacterProperties.IsOrientationHorizontalInverted;
+        _rootNode.CharacterSprite.FlipH = _rootNode.Character.Movement.IsOrientationHorizontalInverted;
     }
 
     /// <summary>
@@ -132,10 +132,10 @@ public partial class Move_Player : Node, IState
     /// <param name="delta">delta time</param>
     private void Movement_UpdateVelocity(double delta)
     {
-        _rootNode.CharacterProperties.Velocity = Nucleus_Movement.CalculateVelocity(_rootNode.CharacterProperties, delta);
+        _rootNode.Character.Movement.Velocity = Nucleus_Movement.CalculateVelocity(_rootNode.Character, delta);
 
-        _rootNode.Velocity = _rootNode.CharacterProperties.Velocity;
-        if (_rootNode.CharacterProperties.IsPlateformer)
+        _rootNode.Velocity = _rootNode.Character.Movement.Velocity;
+        if (Nucleus.Genre == GameManager.Genre.PLATEFORMER)
             _rootNode.UpDirection = Nucleus_Maths.VECTOR_FLOOR;
         
         //_rootNode.CharacterProperties.Velocity = _rootNode.MoveAndSlide();
@@ -147,7 +147,7 @@ public partial class Move_Player : Node, IState
     /// </summary>
     private void Movement_Dash(InputEvent @event)
     {
-        if (_rootNode.CharacterProperties.IsMoving && !_rootNode.CharacterProperties.IsDashing && @event.IsActionPressed("button_A"))
+        if (_rootNode.Character.Movement.IsMoving && !_rootNode.Character.Movement.IsDashing && @event.IsActionPressed("button_A"))
         {
             //_moveNode.DashCount++;
 

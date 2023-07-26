@@ -38,7 +38,7 @@ public partial class Spawn_Pnj : Node, IState
             return;
         }
         if (_rootNode == null) _rootNode = rootNode as Pnj;
-        if (_rootNode.CharacterProperties.DebugMode) _rootNode.DebugLabel.Text = _rootNode.StateMachine.ActiveState.GetStateName();
+        if (_rootNode.Character.DebugMode) _rootNode.DebugLabel.Text = _rootNode.StateMachine.ActiveState.GetStateName();
 
         Enter_CharacterEntrance();
 
