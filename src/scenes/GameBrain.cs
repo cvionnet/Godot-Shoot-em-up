@@ -50,7 +50,7 @@ public partial class GameBrain : Node
         
         // Connect SceneManager after Nucleus_Utils.State_Manager initialization
         GetParent().GetNode<SceneManager>("SceneManager").Initialize_SceneManager();
-        Nucleus.SignalManager.Connect(SignalManager.SignalName.UiPlayer_GameBrain_LevelTimeout, new Callable(this, nameof(onLevel_Timeout)));   // emited from Player
+        Nucleus.SignalManager.Connect(SignalManager.SignalName.UiPlayer_GameBrain_LevelTimeout, new Callable(this, nameof(onLevel_Timeout)));   // emitted from Player
 
         Initialize_LevelsList();
     }

@@ -107,7 +107,7 @@ public partial class ItemsBrain : Node2D
                 itemProperties.ActionName = random_item;
                 itemProperties.ActionDuration = 3.0f;
                 itemProperties.MaxVisibleInstance = 2;
-                itemProperties.TTL = 10.0f;
+                itemProperties.Ttl = 10.0f;
                 itemProperties.OptionalValue = 1.5f;    // the percent to apply on MaxSpeed's character
                 break;
             case GameManager.ItemsActionList.OTHER_CHARACTERS_SLOWER:
@@ -116,7 +116,7 @@ public partial class ItemsBrain : Node2D
                 itemProperties.ActionName = random_item;
                 itemProperties.ActionDuration = 5.0f;
                 itemProperties.MaxVisibleInstance = 2;
-                itemProperties.TTL = 10.0f;
+                itemProperties.Ttl = 10.0f;
                 itemProperties.OptionalValue = 0.5f;    // the percent to apply on MaxSpeed's characters
                 break;
             case GameManager.ItemsActionList.ALL_CHARACTERS_FASTER:
@@ -125,7 +125,7 @@ public partial class ItemsBrain : Node2D
                 itemProperties.ActionName = random_item;
                 itemProperties.ActionDuration = 5.0f;
                 itemProperties.MaxVisibleInstance = 2;
-                itemProperties.TTL = 10.0f;
+                itemProperties.Ttl = 10.0f;
                 itemProperties.OptionalValue = 1.5f;    // the percent to apply on MaxSpeed's characters
                 break;
         }
@@ -141,7 +141,7 @@ public partial class ItemsBrain : Node2D
                 //ItemGeneric instance = new ItemGeneric();
                 ItemGeneric instance = _spawnItems.Add_Instance<ItemGeneric>(null, newPosition);
                 _listItems.Add(instance);
-                if (itemProperties.UniqueItem)
+                if (itemProperties.UniqueInstance)
                     _listUniqueItems.Add(itemProperties);
 
                 instance.Initialize_ItemProperties(itemProperties);

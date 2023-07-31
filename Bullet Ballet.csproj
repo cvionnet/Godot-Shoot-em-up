@@ -4,4 +4,10 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>BulletBallet</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="script_templates\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="script_templates\**" />
+  </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@ namespace BulletBallet.utils.NucleusFW.SceneManager;
 /// Responsible for :
 /// - playing a fadein/out animation (emit a signal when finished)
 /// </summary>
-public partial class SceneTransition : Node
+public sealed partial class SceneTransition : Node
 {
     private AnimationPlayer _animation;
 

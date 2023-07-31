@@ -152,7 +152,7 @@ public partial class ItemGeneric : Area2D
     /// </summary>
     private void Start_TTLTimer()
     {
-        _timerTTL.WaitTime = ItemProperties.TTL;
+        _timerTTL.WaitTime = ItemProperties.Ttl;
         _timerTTL.Start();
     }
 

@@ -23,7 +23,7 @@ public partial class UiPlayer : CanvasLayer
         _timerTime = GetNode<Timer>("TimerTime");
 
         _timerTime.Connect("timeout", new Callable(this, nameof(onTimerTime_Timeout)));
-        Nucleus.SignalManager.Connect(SignalManager.SignalName.Player_UiPlayer_UpdatedScore, new Callable(this, nameof(onPlayer_UpdateScore)));              // emited from Move_Player
+        Nucleus.SignalManager.Connect(SignalManager.SignalName.Player_UiPlayer_UpdatedScore, new Callable(this, nameof(onPlayer_UpdateScore)));              // emitted from Move_Player
 
         Initialize_UI_Player();
     }

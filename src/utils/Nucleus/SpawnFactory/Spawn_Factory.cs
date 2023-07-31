@@ -38,7 +38,7 @@ namespace BulletBallet.utils.NucleusFW.SpawnFactory;
 ///             set Initialize_Game as async           private async void Initialize_Game()
 ///                 type instance = await _spawnBlocks.Add_Multiple_Instances_With_Delay<type>(this/null, MyPosition, new Spawn_Timing(true, true, true, 1.0f, 2.0f), 4);
 /// </summary>
-public partial class Spawn_Factory : Marker2D
+public sealed partial class Spawn_Factory : Marker2D
 {
     public List<PackedScene> ListScenes { get; private set; } = new List<PackedScene>();
 

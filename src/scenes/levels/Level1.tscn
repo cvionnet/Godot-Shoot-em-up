@@ -1,23 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7lj78ugsfx3r"]
+[gd_scene load_steps=4 format=3 uid="uid://bcgft6ccuande"]
 
-[ext_resource type="Script" path="res://src/scenes/levels/Level1.cs" id="1"]
-[ext_resource type="PackedScene" path="res://src/actors/items/ItemsBrain.tscn" id="2"]
-[ext_resource type="Texture2D" uid="uid://bhe62pc4yunwt" path="res://assets/scenes/city_TEMP.png" id="3"]
-[ext_resource type="PackedScene" path="res://src/actors/characters/CharactersBrain.tscn" id="6"]
+[ext_resource type="Script" path="res://src/scenes/levels/Level1.cs" id="1_tma2i"]
+[ext_resource type="PackedScene" uid="uid://d1dqc60hi17px" path="res://src/actors/bullets/BulletsBrain.tscn" id="2_be5yy"]
+[ext_resource type="PackedScene" uid="uid://bte740y1slke5" path="res://src/actors/bullets/BulletGeneric.tscn" id="3_rigpu"]
 
 [node name="Level1" type="Node"]
-script = ExtResource("1")
+script = ExtResource("1_tma2i")
 
-[node name="Background" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0, 0, 0, 1)
-
-[node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(445, 343)
-texture = ExtResource("3")
-
-[node name="ItemsBrain" parent="." instance=ExtResource("2")]
-
-[node name="CharactersBrain" parent="." instance=ExtResource("6")]
+[node name="BulletsBrain" parent="." instance=ExtResource("2_be5yy")]
+BulletGenericScene = ExtResource("3_rigpu")

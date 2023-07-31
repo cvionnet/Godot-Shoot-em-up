@@ -2,7 +2,7 @@ using BulletBallet.actors.characters.classes;
 
 namespace BulletBallet.utils.NucleusFW.AI;
 
-public partial class Nucleus_Steering
+public sealed partial class Nucleus_Steering
 {
     private const float STEERING_DEFAULT_MASS = 2.0f;
     private const float STEERING_DEFAULT_MAXSPEED = 400.0f;

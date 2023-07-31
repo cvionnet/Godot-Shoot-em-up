@@ -2,7 +2,7 @@
 
 namespace BulletBallet.actors.characters.classes;
 
-public class Entity_Movement2D
+public sealed class Entity_Movement2D
 {
     public Nucleus_Steering Steering { get; } = new Nucleus_Steering();
     public bool IsMoving { get; set; } = false;
