@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfm5dayffdddj"]
+
+[ext_resource type="PackedScene" uid="uid://d1dqc60hi17px" path="res://src/objects/bullets/BulletsBrain.tscn" id="1_ynukh"]
+
+[node name="BulletSource" type="Node2D"]
+
+[node name="Marker2D" type="Marker2D" parent="."]
+modulate = Color(0.886275, 0, 0, 1)
+top_level = true
+
+[node name="BulletsBrain" parent="." instance=ExtResource("1_ynukh")]

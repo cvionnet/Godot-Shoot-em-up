@@ -7,7 +7,7 @@ namespace BulletBallet.utils.NucleusFW.SceneManager;
 /// - loading the 1st screen
 /// - transitioning to other screens
 /// </summary>
-public partial class SceneManager : Node
+public sealed partial class SceneManager : Node
 {
 	private SceneTransition _sceneTransition;
 
@@ -32,7 +32,7 @@ public partial class SceneManager : Node
 	#region SIGNAL CALLBACKS
 
 	/// <summary>
-	/// When a signal to change scene hab been emited from a scene
+	/// When a signal to change scene hab been emitted from a scene
 	/// </summary>
 	private void _onCall_TransitionScene(string nextScene)
 	{

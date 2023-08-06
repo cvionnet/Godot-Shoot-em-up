@@ -1,23 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7lj78ugsfx3r"]
+[gd_scene load_steps=3 format=3 uid="uid://bcgft6ccuande"]
 
-[ext_resource type="Script" path="res://src/scenes/levels/Level1.cs" id="1"]
-[ext_resource type="PackedScene" path="res://src/actors/items/ItemsBrain.tscn" id="2"]
-[ext_resource type="Texture2D" uid="uid://bhe62pc4yunwt" path="res://assets/scenes/city_TEMP.png" id="3"]
-[ext_resource type="PackedScene" path="res://src/actors/characters/CharactersBrain.tscn" id="6"]
+[ext_resource type="Script" path="res://src/scenes/levels/Level1.cs" id="1_tma2i"]
+[ext_resource type="PackedScene" uid="uid://dvc7rapr3diyp" path="res://src/actors/bosses/boss1/Boss1.tscn" id="3_hxyoy"]
 
 [node name="Level1" type="Node"]
-script = ExtResource("1")
+script = ExtResource("1_tma2i")
 
-[node name="Background" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0, 0, 0, 1)
-
-[node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(445, 343)
-texture = ExtResource("3")
-
-[node name="ItemsBrain" parent="." instance=ExtResource("2")]
-
-[node name="CharactersBrain" parent="." instance=ExtResource("6")]
+[node name="Boss1" parent="." instance=ExtResource("3_hxyoy")]
+position = Vector2(425, 194)

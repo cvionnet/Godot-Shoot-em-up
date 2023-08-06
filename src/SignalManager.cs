@@ -17,5 +17,7 @@ public partial class SignalManager: Node
 
     [Signal] public delegate void Player_UiPlayer_UpdatedScoreEventHandler(int score);
 
+    [Signal] public delegate void BulletGeneric_BulletBrain_TouchedEventHandler(string bulletName);
+
     [Signal] public delegate void ItemGeneric_ItemBrain_TouchedEventHandler(string itemName);
 }

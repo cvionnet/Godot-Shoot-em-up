@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7lj78ugsfx3r"]
+
+[ext_resource type="Script" path="res://src/scenes/levels/Level9999.cs" id="1_7dplv"]
+[ext_resource type="Texture2D" uid="uid://bhe62pc4yunwt" path="res://assets/scenes/city_TEMP.png" id="2_4ox4i"]
+[ext_resource type="PackedScene" uid="uid://8uv8h80x1jdd" path="res://src/objects/items/ItemsBrain.tscn" id="3_4seh3"]
+[ext_resource type="PackedScene" path="res://src/actors/CharactersBrain.tscn" id="4_xe15j"]
+
+[node name="Level9999" type="Node"]
+script = ExtResource("1_7dplv")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(445, 343)
+texture = ExtResource("2_4ox4i")
+
+[node name="ItemsBrain" parent="." instance=ExtResource("3_4seh3")]
+
+[node name="CharactersBrain" parent="." instance=ExtResource("4_xe15j")]

@@ -1,3 +1,5 @@
+global using System;
+
 global using Godot;
 
 global using BulletBallet.utils.NucleusFW;

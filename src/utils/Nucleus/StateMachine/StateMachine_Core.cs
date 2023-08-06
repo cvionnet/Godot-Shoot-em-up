@@ -1,4 +1,4 @@
-using Godot.Collections;
+using Collections = Godot.Collections;
 
 namespace BulletBallet.utils.NucleusFW.StateMachine;
 
@@ -42,7 +42,7 @@ public partial class StateMachine_Core<T> : Node
     /// </summary>
     /// <param name="targetStatePath">The node path from the "StateMachine" node to the state (because we could have a hierarchy like "StateMachine" > "Move" > "Idle" </param>
     /// <param name="param">A dictionary to pass parameters from a state to the next one </param>
-    public void TransitionTo(string targetStatePath, Dictionary<string, GodotObject> param = null)
+    public void TransitionTo(string targetStatePath, Collections.Dictionary<string, GodotObject> param = null)
     {
         // Check if the path exists
         if (!HasNode(targetStatePath))

@@ -3,7 +3,7 @@ namespace BulletBallet.utils.NucleusFW.AI;
 /// <summary>
 /// Properties used to move the character using steering methods from Nucleus.Steering (eg : for PNJ's statemachine)
 /// </summary>
-public partial class Nucleus_Steering
+public sealed partial class Nucleus_Steering
 {
     public float Mass { get; }
     public float Slow_Radius { get; }       // radius the node will start to slow down

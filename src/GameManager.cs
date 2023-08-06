@@ -17,9 +17,13 @@ public partial class GameManager : Node
     public enum Genre { PLATEFORMER, TOPDOWN }
     
     // PLAYER
-    public float ZoomLevelGame { get; } = 0.5f;
+    public float ZoomLevelGame { get; } = 1.0f;
     public float ZoomLevelZoomOut { get; } = 1.0f;
 
+    // BULLET
+    public enum BulletTypeList { SMALL_1, SMALL_2 }
+    public enum BulletAttackList { SPIRAL }
+    
     // ITEM - To store all items actions
     public enum ItemsActionList { CHARACTER_FASTER, OTHER_CHARACTERS_SLOWER, ALL_CHARACTERS_FASTER }
     public enum ItemsSendTo { CHARACTER, OTHER_CHARACTERS, ALL_CHARACTERS }

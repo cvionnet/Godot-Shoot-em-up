@@ -1,4 +1,4 @@
-using Godot.Collections;
+using Collections = Godot.Collections;
 
 namespace BulletBallet.utils.NucleusFW.StateMachine;
 
@@ -12,7 +12,7 @@ public interface IState
     /// </summary>
     /// <param name="rootNode">The root node having a StateMachine as node</param>
     /// <param name="param">To pass various parameters between states (eg : "speed", 100.0f)</param>
-    void Enter_State<T>(T rootNode, Dictionary<string, GodotObject> param = null);
+    void Enter_State<T>(T rootNode, Collections.Dictionary<string, GodotObject> param = null);
 
     /// <summary>
     /// To cleanup the state before transition to another one
