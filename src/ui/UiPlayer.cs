@@ -1,3 +1,5 @@
+using Timer = Godot.Timer;
+
 namespace BulletBallet.ui;
 
 /// <summary>

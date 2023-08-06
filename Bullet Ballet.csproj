@@ -6,8 +6,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="script_templates\**" />
+    <Compile Remove="TestProject\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="script_templates\**" />
+    <EmbeddedResource Remove="TestProject\**" />
   </ItemGroup>
 </Project>

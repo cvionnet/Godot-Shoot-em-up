@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvc7rapr3diyp"]
+
+[ext_resource type="Texture2D" uid="uid://c52tth4t2ds5d" path="res://assets/actors/characters/boss/boss1.png" id="1_aea2o"]
+[ext_resource type="PackedScene" uid="uid://bfm5dayffdddj" path="res://src/actors/bosses/BulletsEmission/BulletsEmission.tscn" id="2_r2wi3"]
+
+[node name="Boss1" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_aea2o")
+
+[node name="BulletSourceLeft" parent="." instance=ExtResource("2_r2wi3")]
+position = Vector2(-178, 141)
+
+[node name="BulletSourceRight" parent="." instance=ExtResource("2_r2wi3")]
+position = Vector2(174, 138)

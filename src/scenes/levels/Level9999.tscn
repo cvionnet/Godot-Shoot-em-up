@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://src/scenes/levels/Level9999.cs" id="1_7dplv"]
 [ext_resource type="Texture2D" uid="uid://bhe62pc4yunwt" path="res://assets/scenes/city_TEMP.png" id="2_4ox4i"]
-[ext_resource type="PackedScene" uid="uid://8uv8h80x1jdd" path="res://src/actors/items/ItemsBrain.tscn" id="3_4seh3"]
-[ext_resource type="PackedScene" path="res://src/actors/characters/CharactersBrain.tscn" id="4_xe15j"]
+[ext_resource type="PackedScene" uid="uid://8uv8h80x1jdd" path="res://src/objects/items/ItemsBrain.tscn" id="3_4seh3"]
+[ext_resource type="PackedScene" path="res://src/actors/CharactersBrain.tscn" id="4_xe15j"]
 
 [node name="Level9999" type="Node"]
 script = ExtResource("1_7dplv")

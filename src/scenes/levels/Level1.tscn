@@ -1,11 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcgft6ccuande"]
+[gd_scene load_steps=3 format=3 uid="uid://bcgft6ccuande"]
 
 [ext_resource type="Script" path="res://src/scenes/levels/Level1.cs" id="1_tma2i"]
-[ext_resource type="PackedScene" uid="uid://d1dqc60hi17px" path="res://src/actors/bullets/BulletsBrain.tscn" id="2_be5yy"]
-[ext_resource type="PackedScene" uid="uid://bte740y1slke5" path="res://src/actors/bullets/BulletGeneric.tscn" id="3_rigpu"]
+[ext_resource type="PackedScene" uid="uid://dvc7rapr3diyp" path="res://src/actors/bosses/boss1/Boss1.tscn" id="3_hxyoy"]
 
 [node name="Level1" type="Node"]
 script = ExtResource("1_tma2i")
 
-[node name="BulletsBrain" parent="." instance=ExtResource("2_be5yy")]
-BulletGenericScene = ExtResource("3_rigpu")
+[node name="Boss1" parent="." instance=ExtResource("3_hxyoy")]
+position = Vector2(425, 194)
