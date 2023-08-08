@@ -4,6 +4,7 @@ namespace BulletBallet.objects.bullets.classes;
 
 public sealed partial class Bullet : Instance
 {
+    public Vector2 InitialPosition {get; set;}
     public Vector2 Velocity {get; set;}
     public float AngularVelocity {get; set;}
     public float CurrentAngle {get; set;}

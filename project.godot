@@ -29,7 +29,6 @@ shapes/collision/shape_color=Color(1, 1, 1, 1)
 
 window/size/viewport_width=960
 window/size/viewport_height=540
-window/size/always_on_top=true
 window/size/window_width_override=1440
 window/size/window_height_override=810
 window/stretch/mode="viewport"
