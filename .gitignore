@@ -2,3 +2,7 @@
 .godot/
 
 .idea/
+
+TestProject/bin/
+
+TestProject/obj/

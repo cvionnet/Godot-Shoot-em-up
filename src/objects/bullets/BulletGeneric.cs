@@ -16,8 +16,6 @@ public partial class BulletGeneric : CharacterBody2D
     public Bullet BulletProperties { get; private set; }
 
     // private Timer _timerTTL;
-    // private Sprite2D _spriteGlowCircle;
-    private GpuParticles2D _particleWhenPicked;
 
     // private AnimatedSprite2D instanceSprite;
     private Sprite2D instanceSprite;
@@ -30,7 +28,6 @@ public partial class BulletGeneric : CharacterBody2D
     {
         // _timerTTL = GetNode<Timer>("TimerTTL");
         // _spriteGlowCircle = GetNode<Sprite2D>("Glow_circle");
-        _particleWhenPicked = GetNode<GpuParticles2D>("ParticleWhenPicked");
 
         //Connect("body_shape_entered", new Callable(this, nameof(onBodyCharacterShapeEntered)));
         // _timerTTL.Connect("timeout", new Callable(this, nameof(onDestroyBullet_Timeout)));
@@ -41,12 +38,12 @@ public partial class BulletGeneric : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         // Increment the base angle to create a rotating pattern
-        // BulletProperties.CurrentAngle += BulletProperties.AngularVelocity * (float)delta;
-        // BulletProperties.CurrentAngle = BulletProperties.CurrentAngle % 360.0f;
+        BulletProperties.CurrentAngle += BulletProperties.AngularVelocity * (float)delta;
+        BulletProperties.CurrentAngle %= 360.0f;
         
         // Move the bullet according to its velocity
         //MoveAndSlide(Velocity);
-        //MoveAndSlide();
+        MoveAndSlide();
     }
     
     #endregion
@@ -142,11 +139,13 @@ public partial class BulletGeneric : CharacterBody2D
     {
         try
         {
-            PackedScene scene = ResourceLoader.Load<PackedScene>(BulletProperties.SpritePath);
+            //PackedScene scene = ResourceLoader.Load<PackedScene>(BulletProperties.SpritePath);
+            var scene = ResourceLoader.Load<PackedScene>(BulletProperties.SpritePath)?.Instantiate();
             if (scene != null)
             {
-                instanceSprite = (Sprite2D)scene.Instantiate();
-                instanceSprite.Visible = true;
+                AddChild(scene);
+                //instanceSprite = (Sprite2D)scene.Instantiate();
+                //AddChild(instanceSprite);
                 // _spriteGlowCircle.AddSibling(instanceSprite);         // to set the sprite position in the node tree (eg : to allow particles to be above the sprite)
             }
             else
@@ -175,6 +174,8 @@ public partial class BulletGeneric : CharacterBody2D
     public void Initialize_BulletProperties(Bullet bulletProperties)
     {
         BulletProperties = bulletProperties;
+        Velocity = BulletProperties.Velocity;
+
         Name = "Bullet";  //ItemProperties.ActionName;
         AddToGroup("Bullets");
 

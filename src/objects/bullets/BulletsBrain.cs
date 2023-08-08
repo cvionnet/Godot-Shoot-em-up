@@ -89,54 +89,50 @@ public partial class BulletsBrain : Node2D
 
         //Initialize_TimerNewBullet();
 
-        Create_Attack();
+        Generate_RandomAttack();
     }
 
     /// <summary>
     /// Create a new attack
     /// </summary>
-    private void Create_Attack()
+    private void Generate_RandomAttack()
     {
-        // Generate random bullets and attack
-        Bullet bulletProperties = new Bullet();
-        bulletProperties.SpritePath = Generate_RandomBullet();
-
         Attack attackProperties = new Attack();
-        Generate_RandomAttack(ref attackProperties);
-
-        Spawn_SpiralPattern(bulletProperties, attackProperties);
-
+        
         //TODO: IMPLEMENT ALGO FOR OTHER ATTACK
         //TODO: object pooling  (pool XX  or  pool of a certain size (say, 100 bullets), and then create them on the fly
 
-    }
-
-    private string Generate_RandomBullet()
-    {
-        var randomBullet = (GameManager.BulletTypeList) Nucleus_Maths.Rnd.RandiRange(0, Enum.GetNames(typeof(GameManager.BulletTypeList)).Length-1);
-        return $"res://src/objects/bullets/bulletSprites/Bullet{randomBullet.GetHashCode() + 1}.tscn";
-    }
-
-    private void Generate_RandomAttack(ref Attack attackProperties)
-    {
+        
         // TODO: add a list of figures (star, wall, sinusoidal...) + type of bullets (= default bullet N&B, and modulate from 4 different colors)
         var randomAttack = (GameManager.BulletAttackList) Nucleus_Maths.Rnd.RandiRange(0, Enum.GetNames(typeof(GameManager.BulletAttackList)).Length-1);
 
         switch (randomAttack)
         {
             case GameManager.BulletAttackList.SPIRAL:
-                attackProperties.NumberOfBullets = 20;
-                attackProperties.Speed = 300.0f;
+                attackProperties.NumberOfBullets = 30;
+                attackProperties.Speed = 100.0f;
                 attackProperties.AngularVelocity = 2.0f;
                 attackProperties.CurrentAngle = 0.0f;                
                 //bulletProperties.SendTo = GameManager.ItemsSendTo.CHARACTER;
                 //bulletProperties.OptionalValue = 1.5f;    // the percent to apply on MaxSpeed's character
+                
+                Spawn_SpiralPattern(attackProperties);
                 break;
         }        
     }
 
-    private void Spawn_SpiralPattern(Bullet bulletProperties, Attack attackProperties)
+    private string Generate_RandomBullet()
     {
+        var randomBullet = (GameManager.BulletTypeList) Nucleus_Maths.Rnd.RandiRange(0, Enum.GetNames(typeof(GameManager.BulletTypeList)).Length-1);
+        return $"res://src/objects/bullets/bulletSprites/Bullet{randomBullet.GetHashCode() + 1}.tscn";
+    }    
+    
+    private void Spawn_SpiralPattern(Attack attackProperties)
+    {
+        // Generate random bullets and attack
+        Bullet bulletProperties = new Bullet();
+        bulletProperties.SpritePath = Generate_RandomBullet();
+        
         float angleIncrement = 360.0f / attackProperties.NumberOfBullets;
 
         for (int i = 0; i < attackProperties.NumberOfBullets; i++)
@@ -148,8 +144,9 @@ public partial class BulletsBrain : Node2D
             bulletProperties.Velocity = velocity;
             bulletProperties.CurrentAngle = attackProperties.CurrentAngle;
             bulletProperties.AngularVelocity = attackProperties.AngularVelocity;
+            bulletProperties.InitialPosition = this.GlobalPosition;
             Spawn_Bullet(bulletProperties);
-        }        
+        }
     }
 
     private void Spawn_Bullet(Bullet bulletProperties)
@@ -157,7 +154,7 @@ public partial class BulletsBrain : Node2D
         if (bulletProperties.SpritePath != null)
         {
             //Vector2 newPosition = new Vector2(Nucleus_Maths.Rnd.RandfRange(40.0f, Nucleus.ScreenWidth-40.0f), Nucleus_Maths.Rnd.RandfRange(40.0f, Nucleus.ScreenHeight-40.0f));
-            BulletGeneric instance = _spawnBullets.Add_Instance<BulletGeneric>(null, Position);
+            BulletGeneric instance = _spawnBullets.Add_Instance<BulletGeneric>(null, bulletProperties.InitialPosition);
             _listBullets.Add(instance);
             instance.Initialize_BulletProperties(bulletProperties);
         }
