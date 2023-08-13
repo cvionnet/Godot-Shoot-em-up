@@ -27,7 +27,6 @@ public partial class BulletGeneric : CharacterBody2D
     public override void _Ready()
     {
         // _timerTTL = GetNode<Timer>("TimerTTL");
-        // _spriteGlowCircle = GetNode<Sprite2D>("Glow_circle");
 
         //Connect("body_shape_entered", new Callable(this, nameof(onBodyCharacterShapeEntered)));
         // _timerTTL.Connect("timeout", new Callable(this, nameof(onDestroyBullet_Timeout)));
@@ -146,7 +145,7 @@ public partial class BulletGeneric : CharacterBody2D
                 AddChild(scene);
                 //instanceSprite = (Sprite2D)scene.Instantiate();
                 //AddChild(instanceSprite);
-                // _spriteGlowCircle.AddSibling(instanceSprite);         // to set the sprite position in the node tree (eg : to allow particles to be above the sprite)
+                // AddSibling(instanceSprite);         // to set the sprite position in the node tree (eg : to allow particles to be above the sprite)
             }
             else
             {

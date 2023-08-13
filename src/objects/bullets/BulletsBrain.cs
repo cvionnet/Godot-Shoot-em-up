@@ -61,7 +61,7 @@ public partial class BulletsBrain : Node2D
     /// </summary>
     private void onNewBulletTimer_Timeout()
     {
-        Create_Attack();
+        Generate_RandomAttack();
         //Initialize_TimerNewBullet();
     }
 
@@ -102,9 +102,11 @@ public partial class BulletsBrain : Node2D
         //TODO: IMPLEMENT ALGO FOR OTHER ATTACK
         //TODO: object pooling  (pool XX  or  pool of a certain size (say, 100 bullets), and then create them on the fly
 
-        
         // TODO: add a list of figures (star, wall, sinusoidal...) + type of bullets (= default bullet N&B, and modulate from 4 different colors)
+        // TODO: add variations (oscillations, bursts, waveforms...) 
+        
         var randomAttack = (GameManager.BulletAttackList) Nucleus_Maths.Rnd.RandiRange(0, Enum.GetNames(typeof(GameManager.BulletAttackList)).Length-1);
+        //var randomAttack = GameManager.BulletAttackList.SNAIL;
 
         switch (randomAttack)
         {
@@ -115,23 +117,68 @@ public partial class BulletsBrain : Node2D
                 attackProperties.CurrentAngle = 0.0f;                
                 //bulletProperties.SendTo = GameManager.ItemsSendTo.CHARACTER;
                 //bulletProperties.OptionalValue = 1.5f;    // the percent to apply on MaxSpeed's character
-                
                 Spawn_SpiralPattern(attackProperties);
+                break;
+            case GameManager.BulletAttackList.WAVE:
+                attackProperties.NumberOfBullets = 30;
+                attackProperties.Speed = 50.0f;
+                attackProperties.Length = 30.0f;
+                attackProperties.Amplitude = 100.0f;                
+                Spawn_WavePattern(attackProperties);
+                break;
+            case GameManager.BulletAttackList.FLOWER:
+                attackProperties.Length = 3.0f;
+                attackProperties.Speed = 3.0f;
+                Spawn_FlowerPattern(attackProperties);
+                break;
+            case GameManager.BulletAttackList.GRID:
+                attackProperties.Rows = 5;
+                attackProperties.Columns = 5;
+                attackProperties.Spacing = 20.0f;                
+                attackProperties.Speed = 1.0f;
+                Spawn_GridPattern(attackProperties);
+                break;            
+            case GameManager.BulletAttackList.SNAIL:
+                attackProperties.NumberOfBullets = 30;
+                attackProperties.Speed = 5.0f;
+                attackProperties.StartAngle = 0.0f;
+                attackProperties.AngleIncrement = 5.0f;
+                attackProperties.StartRadius = 0.0f;
+                attackProperties.RadiusIncrement = 2.0f;
+                Spawn_SnailPattern(attackProperties);
                 break;
         }        
     }
-
-    private string Generate_RandomBullet()
-    {
-        var randomBullet = (GameManager.BulletTypeList) Nucleus_Maths.Rnd.RandiRange(0, Enum.GetNames(typeof(GameManager.BulletTypeList)).Length-1);
-        return $"res://src/objects/bullets/bulletSprites/Bullet{randomBullet.GetHashCode() + 1}.tscn";
-    }    
+    
+    // private void Initialize_Attack(Attack attackProperties)
+    // {
+    //     // Generate random bullet type
+    //     Bullet bulletProperties = new Bullet();
+    //     bulletProperties.SpritePath = Generate_RandomBullet();
+    //     
+    //     
+    //     
+    //     float angleIncrement = 360.0f / attackProperties.NumberOfBullets;
+    //
+    //     for (int i = 0; i < attackProperties.NumberOfBullets; i++)
+    //     {
+    //         float angle = (attackProperties.CurrentAngle + angleIncrement * i) % 360.0f;
+    //         Vector2 direction = new Vector2(Mathf.Cos(Mathf.DegToRad(angle)), Mathf.Sin(Mathf.DegToRad(angle)));
+    //         Vector2 velocity = direction * attackProperties.Speed;
+    //
+    //         bulletProperties.Velocity = velocity;
+    //         bulletProperties.CurrentAngle = attackProperties.CurrentAngle;
+    //         bulletProperties.AngularVelocity = attackProperties.AngularVelocity;
+    //         bulletProperties.InitialPosition = this.GlobalPosition;
+    //         Spawn_Bullet(bulletProperties);
+    //     }
+    // }
     
     private void Spawn_SpiralPattern(Attack attackProperties)
     {
-        // Generate random bullets and attack
+        // Generate random bullet type
         Bullet bulletProperties = new Bullet();
-        bulletProperties.SpritePath = Generate_RandomBullet();
+        bulletProperties.SpritePath = Generate_RandomBullet();        
         
         float angleIncrement = 360.0f / attackProperties.NumberOfBullets;
 
@@ -148,6 +195,94 @@ public partial class BulletsBrain : Node2D
             Spawn_Bullet(bulletProperties);
         }
     }
+    
+    private void Spawn_WavePattern(Attack attackProperties)
+    {
+        // Generate random bullet type
+        Bullet bulletProperties = new Bullet();
+        bulletProperties.SpritePath = Generate_RandomBullet();        
+        
+        for (int i = 0; i < attackProperties.NumberOfBullets; i++)
+        {
+            bulletProperties.InitialPosition = this.GlobalPosition + new Vector2(i * attackProperties.Length, Mathf.Sin(i) * attackProperties.Amplitude);
+            bulletProperties.Velocity = new Vector2(0, attackProperties.Speed);            
+            
+            //bulletProperties.InitialPosition = this.GlobalPosition;
+            Spawn_Bullet(bulletProperties);
+        }
+    }
+    
+    private void Spawn_FlowerPattern(Attack attackProperties)
+    {
+        // Generate random bullet type
+        Bullet bulletProperties = new Bullet();
+        bulletProperties.SpritePath = Generate_RandomBullet();        
+        
+        for (float angle = 0; angle < 360; angle += 1.0f)
+        {
+            float radian = Mathf.DegToRad(angle);
+            // This sinusoidal function will determine the shape of the petals
+            float r = 100 * Mathf.Sin(attackProperties.Length * radian);
+            Vector2 bulletPosition = this.GlobalPosition + new Vector2(r * Mathf.Cos(radian), r * Mathf.Sin(radian));
+            var velocity = (bulletPosition - this.GlobalPosition) * attackProperties.Speed;
+
+            bulletProperties.Velocity = velocity;
+            bulletProperties.InitialPosition = this.GlobalPosition;
+            Spawn_Bullet(bulletProperties);
+        }
+    }    
+    
+    private void Spawn_GridPattern(Attack attackProperties)
+    {
+        // Generate random bullet type
+        Bullet bulletProperties = new Bullet();
+        bulletProperties.SpritePath = Generate_RandomBullet();        
+
+        for (int i = 0; i < attackProperties.Rows; i++)
+        {
+            for (int j = 0; j < attackProperties.Columns; j++)
+            {
+                Vector2 bulletPosition = this.GlobalPosition + new Vector2(j * attackProperties.Spacing, i * attackProperties.Spacing);
+                var velocity = (bulletPosition - this.GlobalPosition) * attackProperties.Speed;
+
+                bulletProperties.Velocity = velocity;
+                bulletProperties.InitialPosition = bulletPosition;
+                Spawn_Bullet(bulletProperties);
+            }
+        }        
+    }
+    
+    private void Spawn_SnailPattern(Attack attackProperties)
+    {
+        // Generate random bullet type
+        Bullet bulletProperties = new Bullet();
+        bulletProperties.SpritePath = Generate_RandomBullet();        
+
+        float currentAngle = attackProperties.StartAngle;
+        float currentRadius = attackProperties.StartRadius;
+
+        for (int i = 0; i < attackProperties.NumberOfBullets; i++)
+        {
+            float radian = Mathf.DegToRad(currentAngle);
+
+            Vector2 bulletPosition = this.GlobalPosition + new Vector2(currentRadius * Mathf.Cos(radian), currentRadius * Mathf.Sin(radian));
+            Vector2 bulletDirection = bulletPosition - this.GlobalPosition;
+            var velocity = bulletDirection * attackProperties.Speed;
+
+            bulletProperties.Velocity = velocity;
+            bulletProperties.InitialPosition = bulletPosition;
+            Spawn_Bullet(bulletProperties);
+
+            currentAngle += attackProperties.AngleIncrement;
+            currentRadius += attackProperties.RadiusIncrement;
+        }        
+    }        
+
+    private string Generate_RandomBullet()
+    {
+        var randomBullet = (GameManager.BulletTypeList) Nucleus_Maths.Rnd.RandiRange(0, Enum.GetNames(typeof(GameManager.BulletTypeList)).Length-1);
+        return $"res://src/objects/bullets/bulletSprites/Bullet{randomBullet.GetHashCode() + 1}.tscn";
+    }
 
     private void Spawn_Bullet(Bullet bulletProperties)
     {
@@ -163,7 +298,6 @@ public partial class BulletsBrain : Node2D
             Nucleus.Logs.Error($"Error while loading Bullet Action", new NullReferenceException(), GetType().Name, MethodBase.GetCurrentMethod().Name);
         }
     }
-    
     
     // private void Initialize_TimerNewBullet()
     // {

@@ -22,7 +22,7 @@ public partial class GameManager : Node
 
     // BULLET
     public enum BulletTypeList { SMALL_1, SMALL_2 }
-    public enum BulletAttackList { SPIRAL }
+    public enum BulletAttackList { SPIRAL, WAVE, FLOWER, GRID, SNAIL }
     
     // ITEM - To store all items actions
     public enum ItemsActionList { CHARACTER_FASTER, OTHER_CHARACTERS_SLOWER, ALL_CHARACTERS_FASTER }
